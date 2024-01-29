@@ -16,7 +16,7 @@ interface RotationCardProps {
     dayOff: number;
 }
 
-const RotationCard: React.FC<RotationCardProps> = ({ title, name: subtitle, room: name, openModal, classid, dayOff }) => {
+const RotationCard: React.FC<RotationCardProps> = ({ title, name: subtitle, room, openModal, classid, dayOff }) => {
 
     return (
         <>
@@ -26,7 +26,7 @@ const RotationCard: React.FC<RotationCardProps> = ({ title, name: subtitle, room
                         {title}
                     </Typography>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        {subtitle}
+                        {subtitle} - (<Typography sx={{display: 'inline'}} color="text.secondary" >{room}</Typography>)
                     </Typography>
                 </CardContent>
                 <CardActions>
