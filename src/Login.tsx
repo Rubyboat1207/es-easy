@@ -70,9 +70,7 @@ export default function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <Typography variant="body2" color="textSecondary" gutterBottom>
-                            I, Rudy Soliz, agree to not store your data. And i couldn't with my current setup
-                        </Typography>
+			I do not store your data.                        
                     </div>
                     <Button variant="contained" color="primary" fullWidth onClick={() => { login() }}>
                         login
