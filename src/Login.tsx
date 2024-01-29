@@ -50,7 +50,7 @@ export default function Login() {
                         Enriching Students Easy
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom>
-                        written by rudy
+                        written by Rudy Soliz, a 3rd Year learner
                     </Typography>
                     <TextField
                         label="username"
@@ -71,7 +71,7 @@ export default function Login() {
                     />
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <Typography variant="body2" color="textSecondary" gutterBottom>
-                            no, i'm not storing this data. i dont even have a server
+                            I, Rudy Soliz, agree to not store your data. And i couldn't with my current setup
                         </Typography>
                     </div>
                     <Button variant="contained" color="primary" fullWidth onClick={() => { login() }}>
