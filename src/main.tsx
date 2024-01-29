@@ -7,6 +7,7 @@ import Login from './Login.tsx'
 import './index.css'
 import { ThemeProvider } from '@emotion/react'
 import { createTheme } from '@mui/material'
+import { NotificationProvider } from './contexts/NotificationContext.tsx'
 
 const routes = createBrowserRouter([
   {
@@ -27,7 +28,7 @@ const theme = createTheme({
       main: '#90caf9',
     },
     secondary: {
-      main: '#f48fb1',
+      main: '#ffffff',
     },
   },
   typography: {
@@ -44,7 +45,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <LoginProvider>
       <ThemeProvider theme={theme}>
-        <RouterProvider router={routes} />
+        <NotificationProvider>
+          <RouterProvider router={routes} />
+        </NotificationProvider>
       </ThemeProvider>
     </LoginProvider>
   </React.StrictMode>,

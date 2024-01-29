@@ -22,3 +22,33 @@ body {
     z-index: 500;
     background-color: #000000aa;
 }
+
+.notificationContainter {
+    position: fixed;
+    display: flex;
+    bottom: 20px;
+    right: 20px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.notification {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 300px;
+    min-height: 100px;
+    padding: 5px 5px 5px 5px;
+}
+
+.notification>button {
+    height: 20px;
+    background-color: white !important;
+}
+
+.notification>.buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+}

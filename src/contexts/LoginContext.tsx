@@ -12,7 +12,7 @@ const LoginContext = createContext<LoginContextProps | undefined>(undefined);
 
 // Step 2: Define the provider component
 const LoginProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
-    const [token, setToken] = useState<string | null>(sessionStorage.getItem('token'));
+    const [token, setToken] = useState<string | null>(sessionStorage.getItem('token') || '');
 
     function setTok(token: string | null): void {
         setToken(token);

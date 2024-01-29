@@ -1,4 +1,4 @@
-import { Card, CardContent, CardActions, Typography, IconButton, Menu } from '@mui/material';
+import { Card, CardContent, CardActions, Typography, IconButton } from '@mui/material';
 import { Edit as EditIcon } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from 'react';
@@ -59,9 +59,10 @@ interface RotationSelectionProps {
     title: string;
     subtitle: string;
     onClick: () => void;
+    seatsLeft: number;
 }
 
-const RotationSelection: React.FC<RotationSelectionProps> = ({ title, subtitle, onClick}) => {
+const RotationSelection: React.FC<RotationSelectionProps> = ({ title, subtitle, seatsLeft, onClick}) => {
 
     return (
         <>
@@ -74,6 +75,7 @@ const RotationSelection: React.FC<RotationSelectionProps> = ({ title, subtitle, 
                         {subtitle}
                     </Typography>
                     <CardActions>
+                        <Typography>seats {seatsLeft}</Typography>
                         <IconButton onClick={onClick}>
                             <CalendarTodayIcon/>
                         </IconButton>
@@ -106,7 +108,7 @@ export const RotationSelectModal: React.FC<RotationSelectModalProps> = ({ onClos
 
     return (
         <div className='modal'>
-            <Card sx={{ width: '500px', zIndex: 500 }}>
+            <Card sx={{ width: '500px', zIndex: 500, maxHeight: '60vh', overflowY: 'auto' }}>
                 <CardContent>
                     <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                         <Typography>Schedule A Class</Typography>
@@ -122,7 +124,9 @@ export const RotationSelectModal: React.FC<RotationSelectModalProps> = ({ onClos
                                 rotationId: classid,
                                 EsCourseId: c.courseId,
                                 date: c.appointmentDate
-                            })}/>
+                            })}
+                            seatsLeft={c.maxNumberStudents - c.numberOfAppointments}
+                            />
                         ))}
                     </div>
                 </CardContent>
