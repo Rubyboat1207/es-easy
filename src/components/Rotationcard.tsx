@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Course, ScheduleListResponse } from '../types';
 import { useLogin } from '../contexts/LoginContext';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import { useJSONTheme } from '../contexts/ThemeContext';
 
 interface RotationCardProps {
     title: string;
@@ -17,10 +18,14 @@ interface RotationCardProps {
 }
 
 const RotationCard: React.FC<RotationCardProps> = ({ title, name: subtitle, room, openModal, classid, dayOff }) => {
+    const { getThemeObject } = useJSONTheme();
+
+    const themeObject = getThemeObject();
+
 
     return (
         <>
-            <Card sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <Card sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', backgroundColor: themeObject.rotation_card_background_color }}>
                 <CardContent>
                     <Typography variant="h6" component="div">
                         {title}
@@ -63,10 +68,14 @@ interface RotationSelectionProps {
 }
 
 const RotationSelection: React.FC<RotationSelectionProps> = ({ title, subtitle, seatsLeft, onClick}) => {
+    const { getThemeObject } = useJSONTheme();
+
+    const themeObject = getThemeObject();
+
 
     return (
         <>
-            <Card sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <Card sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', backgroundColor: themeObject.rotation_card_background_color }}>
                 <CardContent>
                     <Typography variant="h6" component="div">
                         {title}
@@ -108,7 +117,7 @@ export const RotationSelectModal: React.FC<RotationSelectModalProps> = ({ onClos
 
     return (
         <div className='modal'>
-            <Card sx={{ width: '500px', zIndex: 500, maxHeight: '60vh', overflowY: 'auto' }}>
+            <Card sx={{ width: '500px', zIndex: 500, maxHeight: '65vh', overflowY: 'auto' }}>
                 <CardContent>
                     <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                         <Typography>Schedule A Class</Typography>

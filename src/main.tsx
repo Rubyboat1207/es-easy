@@ -8,6 +8,7 @@ import './index.css'
 import { ThemeProvider } from '@emotion/react'
 import { createTheme } from '@mui/material'
 import { NotificationProvider } from './contexts/NotificationContext.tsx'
+import { JSONThemeProvider } from './contexts/ThemeContext.tsx'
 
 const routes = createBrowserRouter([
   {
@@ -20,35 +21,16 @@ const routes = createBrowserRouter([
   }
 ])
 
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    // Optionally, customize your colors here
-    primary: {
-      main: '#90caf9',
-    },
-    secondary: {
-      main: '#ffffff',
-    },
-  },
-  typography: {
-    fontFamily: [
-      'Noto Sans',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif'
-    ].join(','),
-  },
-});
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <LoginProvider>
-      <ThemeProvider theme={theme}>
         <NotificationProvider>
-          <RouterProvider router={routes} />
+          <JSONThemeProvider>
+            <RouterProvider router={routes} />
+          </JSONThemeProvider>
         </NotificationProvider>
-      </ThemeProvider>
     </LoginProvider>
   </React.StrictMode>,
 )

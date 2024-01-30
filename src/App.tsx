@@ -6,6 +6,7 @@ import {
   Button,
   Menu,
   MenuItem,
+  Card,
 } from "@mui/material";
 import { AccountCircle as AccountCircleIcon } from "@mui/icons-material";
 import RotationCard, {
@@ -23,6 +24,7 @@ import axios from "axios";
 import moment from "moment";
 import { createPortal } from "react-dom";
 import { useNotification } from "./contexts/NotificationContext";
+import ThemeSelect from "./components/ThemeSelector";
 
 // Usage in a main component
 const App: React.FC = () => {
@@ -32,7 +34,7 @@ const App: React.FC = () => {
   const [changes, setChanges] = useState<CourseChange[]>([]);
   const [weekOffset, setWeekOffset] = useState<number>(0);
   const navigate = useNavigate();
-  const [modalOpen, setOpen] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalTarget, setModalTarget] = useState<number>(0); // dayOffset
   const [dayOffset, setDayOffset] = useState<number>(0);
   const [profileOpen, setProfileOpen] = useState<boolean>(false);
@@ -42,12 +44,28 @@ const App: React.FC = () => {
 
   const { token, isLoggedIn } = useLogin();
 
-  console.log(isLoggedIn);
+
+  // Function to handle key press
+  const handleKeyPress = (event: KeyboardEvent) => {
+    //console.log(`Key "${event.key}" pressed [event: keydown]`)
+    if (event.key === 'Escape') {
+      setModalOpen(false);
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  };
 
   useEffect(() => {
     if (!isLoggedIn) {
       navigate("/");
     }
+
+    window.addEventListener('keydown', handleKeyPress);
+
+    // Removing the event listener on cleanup
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
   }, []);
 
   useEffect(() => {
@@ -62,6 +80,9 @@ const App: React.FC = () => {
     7: 2,
     9: 3,
   };
+
+
+
 
   function refreshSchedule() {
     axios
@@ -105,14 +126,14 @@ const App: React.FC = () => {
   }
 
   function openModal(classid: number, dayOffset: number) {
-    setOpen(true);
+    setModalOpen(true);
     setDayOffset(dayOffset);
     setModalTarget(classid);
   }
 
   function onSubmit(change: CourseChange) {
     setChanges([change, ...changes]);
-    setOpen(false);
+    setModalOpen(false);
   }
 
   async function save(/*statusUpdate: (progress: number) => void*/) {
@@ -138,10 +159,10 @@ const App: React.FC = () => {
             color: "error",
             text: res.data.errorMessage
               ? res.data.errorMessage +
-                " for rotation " +
-                (periodIdToRotationId[change.rotationId] + 1) + " on " + moment(change.date).format('M/DD')
+              " for rotation " +
+              (periodIdToRotationId[change.rotationId] + 1) + " on " + moment(change.date).format('M/DD')
               : "an unknown error occured while scheduling rotation " +
-                (periodIdToRotationId[change.rotationId] + 1) + " on " + moment(change.date).format('M/DD'),
+              (periodIdToRotationId[change.rotationId] + 1) + " on " + moment(change.date).format('M/DD'),
             btnText: "ok",
           });
           console.log('continuing')
@@ -173,7 +194,7 @@ const App: React.FC = () => {
           xs={12}
         >
           {/* Theme and Login Icons */}
-          {/* <ThemeSelect /> */}
+          <ThemeSelect />
           <IconButton
             onClick={() => setProfileOpen(!profileOpen)}
             ref={anchorElement}
@@ -209,22 +230,31 @@ const App: React.FC = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            marginBottom: "7px",
           }}
           item
           xs={12}
         >
-          {/* Week Navigation */}
-          <IconButton onClick={() => setWeekOffset(weekOffset - 1)}>
-            <ArrowBackIosNewIcon />
-          </IconButton>
-          <Typography variant="h4" component="h2" sx={{ color: "white" }}>
-            Week of{" "}
-            {startDate.clone().add(weekOffset, "w").format("MM/DD/YYYY")}
-          </Typography>
-          <IconButton onClick={() => setWeekOffset(weekOffset + 1)}>
-            <ArrowForwardIosIcon />
-          </IconButton>
+          <Card
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginBottom: changes.length > 0 ? "10px" : "25px",
+              padding: "20px 20px 20px 20px",
+            }}
+          >
+            {/* Week Navigation */}
+            <IconButton onClick={() => setWeekOffset(weekOffset - 1)}>
+              <ArrowBackIosNewIcon />
+            </IconButton>
+            <Typography variant="h4" component="div" color={'text'}>
+              Week of{" "}
+              {startDate.clone().add(weekOffset, "w").format("MM/DD/YYYY")}
+            </Typography>
+            <IconButton onClick={() => setWeekOffset(weekOffset + 1)}>
+              <ArrowForwardIosIcon />
+            </IconButton>
+          </Card>
         </Grid>
         {changes.length > 0 && (
           <Grid
@@ -241,7 +271,7 @@ const App: React.FC = () => {
             <Button variant="contained" onClick={() => save()}>
               Save Changes
             </Button>
-            <Button variant="contained" onClick={() => setChanges([])}>
+            <Button variant="contained" color="secondary" onClick={() => setChanges([])}>
               Cancel All Changes
             </Button>
           </Grid>
@@ -252,68 +282,68 @@ const App: React.FC = () => {
           <Grid container spacing={2} sx={{ width: "95vw" }}>
             {!schedule
               ? [...Array(4)].map((_, index) => (
+                <Grid item xs={12} sm={6} md={true} key={index}>
+                  <DailyScheduleBox day={index} dayOfTheMonth={startDate.clone().add(weekOffset, "w").add(index, 'd').date()}>
+                    <SpinningLoader />
+                  </DailyScheduleBox>
+                </Grid>
+              ))
+              : [...Array(4)].map((_, index) => {
+                const day = schedule[index];
+                return (
                   <Grid item xs={12} sm={6} md={true} key={index}>
-                    <DailyScheduleBox day={index}>
-                      <SpinningLoader />
+                    <DailyScheduleBox day={index} dayOfTheMonth={startDate.clone().add(weekOffset, "w").add(index, 'd').date()}>
+                      {day[0] && (
+                        <RotationCard
+                          title="Rotation 1"
+                          name={day[0].courseName || "not scheduled"}
+                          room={day[0].courseRoom || ""}
+                          openModal={openModal}
+                          classid={day[0].periodId}
+                          dayOff={index}
+                        />
+                      )}
+                      {day[1] && (
+                        <RotationCard
+                          title="Rotation 2"
+                          name={day[1].courseName || "not scheduled"}
+                          room={day[1].courseRoom || ""}
+                          openModal={openModal}
+                          classid={day[1].periodId}
+                          dayOff={index}
+                        />
+                      )}
+                      {day[2] && (
+                        <RotationCard
+                          title="Rotation 3"
+                          name={day[2].courseName || "not scheduled"}
+                          room={day[2].courseRoom || ""}
+                          openModal={openModal}
+                          classid={day[2].periodId}
+                          dayOff={index}
+                        />
+                      )}
+                      {day[3] && (
+                        <RotationCard
+                          title="Rotation 4"
+                          name={day[3].courseName || "not scheduled"}
+                          room={day[3].courseRoom || ""}
+                          openModal={openModal}
+                          classid={day[3].periodId}
+                          dayOff={index}
+                        />
+                      )}
                     </DailyScheduleBox>
                   </Grid>
-                ))
-              : [...Array(4)].map((_, index) => {
-                  const day = schedule[index];
-                  return (
-                    <Grid item xs={12} sm={6} md={true} key={index}>
-                      <DailyScheduleBox day={index}>
-                        {day[0] && (
-                          <RotationCard
-                            title="Rotation 1"
-                            name={day[0].courseName || "not scheduled"}
-                            room={day[0].courseRoom || ""}
-                            openModal={openModal}
-                            classid={day[0].periodId}
-                            dayOff={index}
-                          />
-                        )}
-                        {day[1] && (
-                          <RotationCard
-                            title="Rotation 2"
-                            name={day[1].courseName || "not scheduled"}
-                            room={day[1].courseRoom || ""}
-                            openModal={openModal}
-                            classid={day[1].periodId}
-                            dayOff={index}
-                          />
-                        )}
-                        {day[2] && (
-                          <RotationCard
-                            title="Rotation 3"
-                            name={day[2].courseName || "not scheduled"}
-                            room={day[2].courseRoom || ""}
-                            openModal={openModal}
-                            classid={day[2].periodId}
-                            dayOff={index}
-                          />
-                        )}
-                        {day[3] && (
-                          <RotationCard
-                            title="Rotation 4"
-                            name={day[3].courseName || "not scheduled"}
-                            room={day[3].courseRoom || ""}
-                            openModal={openModal}
-                            classid={day[3].periodId}
-                            dayOff={index}
-                          />
-                        )}
-                      </DailyScheduleBox>
-                    </Grid>
-                  );
-                })}
+                );
+              })}
           </Grid>
         </div>
       </Grid>
       {modalOpen &&
         createPortal(
           <RotationSelectModal
-            onClose={() => setOpen(false)}
+            onClose={() => setModalOpen(false)}
             onSubmit={onSubmit}
             classid={modalTarget}
             datefmted={startDate

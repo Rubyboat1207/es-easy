@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoggingIn, setIsLoggingIn] = useState(false);
 
     const { setToken } = useLogin();
 
@@ -16,7 +17,7 @@ export default function Login() {
 
 
     async function login() {
-        console.log('eee')
+        setIsLoggingIn(true);
         const res: CredValidation = (await axios.post('https://titanschedule.com:8533/api', {
             url: 'https://loginapi.enrichingstudents.com/v1.0/login/validatecredential',
             payload: {
@@ -24,8 +25,6 @@ export default function Login() {
                 passwordFromClient: password
             }
         })).data[0]
-
-        console.log(res);
 
         if (res.loginStatus == 2) {
             // 	https://studentsapi.enrichingstudents.com/v1.0/login/validatetoken
@@ -39,6 +38,7 @@ export default function Login() {
 
             navigate('/app')
         }
+        setIsLoggingIn(false);
     }
 
 
@@ -68,11 +68,16 @@ export default function Login() {
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        onKeyDown={(e) => {
+                            if(e.key === 'Enter') {
+                                login();
+                            }
+                        }}
                     />
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-			I do not store your data.                        
+                        <Typography>Data is not stored at any time during use.</Typography>
                     </div>
-                    <Button variant="contained" color="primary" fullWidth onClick={() => { login() }}>
+                    <Button variant="contained" color="primary" fullWidth onClick={() => { login() }} disabled={isLoggingIn}>
                         login
                     </Button>
                 </CardContent>
