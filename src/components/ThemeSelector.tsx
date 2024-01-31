@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Select, MenuItem } from '@mui/material';
-import { theme_dark, theme_dracula, theme_light, theme_purple, theme_red, theme_titan } from '../util/themes';
+import { theme_american, theme_dark, theme_dracula, theme_light, theme_purple, theme_red, theme_titan } from '../util/themes';
 import { useJSONTheme } from '../contexts/ThemeContext';
 
 // Theme Select Component
@@ -14,7 +14,11 @@ const ThemeSelect: React.FC = () => {
     dracula: theme_dracula,
     red: theme_red,
     purple: theme_purple,
-    titan: theme_titan,
+    robotics: theme_titan
+  }
+
+  if(window.localStorage.getItem('winner') === 'yes') {
+    themes['america'] = theme_american;
   }
 
   useEffect(() => {

@@ -12,7 +12,8 @@ export interface ThemeObject {
     icon_color: string;
 }
 
-import dark_titan_background from "../assets/background_dark_titan.png"
+import america from "../assets/american-flag-america.gif"
+import robob from "../assets/robob.png"
 
 export const theme_dark = JSON.stringify({
     background_color: '#212121',
@@ -46,14 +47,15 @@ export const theme_light = JSON.stringify({
 } as ThemeObject)
 
 export const theme_red = JSON.stringify({
-    "background_color": "#2b2020",
-    "card_background_color": "#342626",
-    "rotation_card_background_color": "#3d2f2f",
-    "primary_color": "#d94e4e",
-    "secondary_color": "#ffffff",
-    "primary_text_color": "#ffffff",
-    "secondary_text_color": "#f2cccc"
-} as ThemeObject)
+    background_color: "#9e2626",
+    card_background_color: "#442222",
+    rotation_card_background_color: "#9e3e3e",
+    primary_color: "#9e2626",
+    secondary_color: "#ffffff",
+    primary_text_color: "#fff",
+    secondary_text_color: "#bbb"
+} as ThemeObject);
+
 
 export const theme_purple = JSON.stringify({
     background_color: "#292034",
@@ -66,12 +68,22 @@ export const theme_purple = JSON.stringify({
 } as ThemeObject);
 
 export const theme_titan = JSON.stringify({
-    background_image_url: "https://i.imgur.com/JqbFGOc.png", // Keeping the background image as is
+    background_image_url: robob, // Keeping the background image as is
     card_background_color: "#b292e6", // A pastel purple
     rotation_card_background_color: "#9bd2e6", // A pastel sky blue
     primary_color: "#e6e6e6", // A very light grey for a pastel touch
     secondary_color: "#a084ff", // A softer pastel purple
     primary_text_color: "#224", // White text for contrast on darker colors
     secondary_text_color: "#335" // A very light grey that's softer than pure white
+} as ThemeObject);
+
+export const theme_american = JSON.stringify({
+    background_image_url: america,
+    card_background_color: '#B31942',
+    rotation_card_background_color: '#0A3161',
+    primary_color: '#B31942 ',
+    secondary_color: '#0A3161',
+    primary_text_color: '#fff',
+    secondary_text_color: '#bbb'
 } as ThemeObject);
 

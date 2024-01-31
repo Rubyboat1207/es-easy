@@ -1,14 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   IconButton,
   Grid,
   Button,
-  Menu,
-  MenuItem,
   Card,
 } from "@mui/material";
-import { AccountCircle as AccountCircleIcon } from "@mui/icons-material";
 import RotationCard, {
   CourseChange,
   RotationSelectModal,
@@ -24,7 +21,7 @@ import axios from "axios";
 import moment from "moment";
 import { createPortal } from "react-dom";
 import { useNotification } from "./contexts/NotificationContext";
-import ThemeSelect from "./components/ThemeSelector";
+import Heading from "./components/Heading";
 
 // Usage in a main component
 const App: React.FC = () => {
@@ -37,7 +34,6 @@ const App: React.FC = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalTarget, setModalTarget] = useState<number>(0); // dayOffset
   const [dayOffset, setDayOffset] = useState<number>(0);
-  const [profileOpen, setProfileOpen] = useState<boolean>(false);
   const { addNotification } = useNotification();
 
   const startDate = moment().startOf("isoWeek");
@@ -80,9 +76,6 @@ const App: React.FC = () => {
     7: 2,
     9: 3,
   };
-
-
-
 
   function refreshSchedule() {
     axios
@@ -179,52 +172,11 @@ const App: React.FC = () => {
     refreshSchedule();
   }
 
-  const anchorElement = useRef<any>();
 
   return (
     <>
       <Grid container spacing={2}>
-        <Grid
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-          item
-          xs={12}
-        >
-          {/* Theme and Login Icons */}
-          <ThemeSelect />
-          <IconButton
-            onClick={() => setProfileOpen(!profileOpen)}
-            ref={anchorElement}
-          >
-            <AccountCircleIcon />
-          </IconButton>
-          <Menu
-            open={profileOpen}
-            onClose={() => setProfileOpen(false)}
-            anchorEl={anchorElement.current}
-          >
-            <MenuItem
-              onClick={() => {
-                sessionStorage.clear();
-                navigate("/");
-              }}
-            >
-              Logout
-            </MenuItem>
-            <MenuItem
-              onClick={() =>
-                alert(
-                  "click on the edit buttons to open a window that lets you select from avaliable classes. when you're done, click the Save Changes button."
-                )
-              }
-            >
-              Help
-            </MenuItem>
-          </Menu>
-        </Grid>
+        <Heading />
         <Grid
           sx={{
             display: "flex",

@@ -5,15 +5,18 @@ import App from './App.tsx'
 import { LoginProvider } from './contexts/LoginContext.tsx'
 import Login from './Login.tsx'
 import './index.css'
-import { ThemeProvider } from '@emotion/react'
-import { createTheme } from '@mui/material'
 import { NotificationProvider } from './contexts/NotificationContext.tsx'
 import { JSONThemeProvider } from './contexts/ThemeContext.tsx'
+import EulaPage from './Eula.tsx'
 
 const routes = createBrowserRouter([
   {
     path: '/App',
     element: (<App/>)
+  },
+  {
+    path: '/eula',
+    element: (<EulaPage/>)
   },
   {
     path: '/',
