@@ -8,6 +8,7 @@ import './index.css'
 import { NotificationProvider } from './contexts/NotificationContext.tsx'
 import { JSONThemeProvider } from './contexts/ThemeContext.tsx'
 import EulaPage from './Eula.tsx'
+import { SecretModeProvider } from './contexts/SecretModeContexts.tsx'
 
 const routes = createBrowserRouter([
   {
@@ -31,7 +32,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <LoginProvider>
         <NotificationProvider>
           <JSONThemeProvider>
-            <RouterProvider router={routes} />
+            <SecretModeProvider>
+              <RouterProvider router={routes} />
+            </SecretModeProvider>
           </JSONThemeProvider>
         </NotificationProvider>
     </LoginProvider>

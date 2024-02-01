@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Typography,
-  IconButton,
-  Grid,
-  Button,
-  Card,
-} from "@mui/material";
+import { Typography, IconButton, Grid, Button, Card } from "@mui/material";
 import RotationCard, {
   CourseChange,
   RotationSelectModal,
@@ -22,6 +16,8 @@ import moment from "moment";
 import { createPortal } from "react-dom";
 import { useNotification } from "./contexts/NotificationContext";
 import Heading from "./components/Heading";
+import FlexModsContainer from "./components/FlexModsContainer";
+import { useSecretMode } from "./contexts/SecretModeContexts";
 
 // Usage in a main component
 const App: React.FC = () => {
@@ -40,27 +36,28 @@ const App: React.FC = () => {
 
   const { token, isLoggedIn } = useLogin();
 
-
   // Function to handle key press
   const handleKeyPress = (event: KeyboardEvent) => {
     //console.log(`Key "${event.key}" pressed [event: keydown]`)
-    if (event.key === 'Escape') {
+    if (event.key === "Escape") {
       setModalOpen(false);
       event.preventDefault();
       event.stopPropagation();
     }
   };
 
+  const { showFlexModBeta } = useSecretMode();
+
   useEffect(() => {
     if (!isLoggedIn) {
       navigate("/");
     }
 
-    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
 
     // Removing the event listener on cleanup
     return () => {
-      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
 
@@ -152,13 +149,17 @@ const App: React.FC = () => {
             color: "error",
             text: res.data.errorMessage
               ? res.data.errorMessage +
-              " for rotation " +
-              (periodIdToRotationId[change.rotationId] + 1) + " on " + moment(change.date).format('M/DD')
+                " for rotation " +
+                (periodIdToRotationId[change.rotationId] + 1) +
+                " on " +
+                moment(change.date).format("M/DD")
               : "an unknown error occured while scheduling rotation " +
-              (periodIdToRotationId[change.rotationId] + 1) + " on " + moment(change.date).format('M/DD'),
+                (periodIdToRotationId[change.rotationId] + 1) +
+                " on " +
+                moment(change.date).format("M/DD"),
             btnText: "ok",
           });
-          console.log('continuing')
+          console.log("continuing");
           continue;
         }
         newChanges.splice(i);
@@ -171,7 +172,6 @@ const App: React.FC = () => {
     setChanges(newChanges);
     refreshSchedule();
   }
-
 
   return (
     <>
@@ -199,7 +199,7 @@ const App: React.FC = () => {
             <IconButton onClick={() => setWeekOffset(weekOffset - 1)}>
               <ArrowBackIosNewIcon />
             </IconButton>
-            <Typography variant="h4" component="div" color={'text'}>
+            <Typography variant="h4" component="div" color={"text"}>
               Week of{" "}
               {startDate.clone().add(weekOffset, "w").format("MM/DD/YYYY")}
             </Typography>
@@ -223,7 +223,11 @@ const App: React.FC = () => {
             <Button variant="contained" onClick={() => save()}>
               Save Changes
             </Button>
-            <Button variant="contained" color="secondary" onClick={() => setChanges([])}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => setChanges([])}
+            >
               Cancel All Changes
             </Button>
           </Grid>
@@ -234,64 +238,79 @@ const App: React.FC = () => {
           <Grid container spacing={2} sx={{ width: "95vw" }}>
             {!schedule
               ? [...Array(4)].map((_, index) => (
-                <Grid item xs={12} sm={6} md={true} key={index}>
-                  <DailyScheduleBox day={index} dayOfTheMonth={startDate.clone().add(weekOffset, "w").add(index, 'd').date()}>
-                    <SpinningLoader />
-                  </DailyScheduleBox>
-                </Grid>
-              ))
-              : [...Array(4)].map((_, index) => {
-                const day = schedule[index];
-                return (
                   <Grid item xs={12} sm={6} md={true} key={index}>
-                    <DailyScheduleBox day={index} dayOfTheMonth={startDate.clone().add(weekOffset, "w").add(index, 'd').date()}>
-                      {day[0] && (
-                        <RotationCard
-                          title="Rotation 1"
-                          name={day[0].courseName || "not scheduled"}
-                          room={day[0].courseRoom || ""}
-                          openModal={openModal}
-                          classid={day[0].periodId}
-                          dayOff={index}
-                        />
-                      )}
-                      {day[1] && (
-                        <RotationCard
-                          title="Rotation 2"
-                          name={day[1].courseName || "not scheduled"}
-                          room={day[1].courseRoom || ""}
-                          openModal={openModal}
-                          classid={day[1].periodId}
-                          dayOff={index}
-                        />
-                      )}
-                      {day[2] && (
-                        <RotationCard
-                          title="Rotation 3"
-                          name={day[2].courseName || "not scheduled"}
-                          room={day[2].courseRoom || ""}
-                          openModal={openModal}
-                          classid={day[2].periodId}
-                          dayOff={index}
-                        />
-                      )}
-                      {day[3] && (
-                        <RotationCard
-                          title="Rotation 4"
-                          name={day[3].courseName || "not scheduled"}
-                          room={day[3].courseRoom || ""}
-                          openModal={openModal}
-                          classid={day[3].periodId}
-                          dayOff={index}
-                        />
-                      )}
+                    <DailyScheduleBox
+                      day={index}
+                      dayOfTheMonth={startDate
+                        .clone()
+                        .add(weekOffset, "w")
+                        .add(index, "d")
+                        .date()}
+                    >
+                      <SpinningLoader />
                     </DailyScheduleBox>
                   </Grid>
-                );
-              })}
+                ))
+              : [...Array(4)].map((_, index) => {
+                  const day = schedule[index];
+                  return (
+                    <Grid item xs={12} sm={6} md={true} key={index}>
+                      <DailyScheduleBox
+                        day={index}
+                        dayOfTheMonth={startDate
+                          .clone()
+                          .add(weekOffset, "w")
+                          .add(index, "d")
+                          .date()}
+                      >
+                        {day[0] && (
+                          <RotationCard
+                            title="Rotation 1"
+                            name={day[0].courseName || "not scheduled"}
+                            room={day[0].courseRoom || ""}
+                            openModal={openModal}
+                            classid={day[0].periodId}
+                            dayOff={index}
+                          />
+                        )}
+                        {day[1] && (
+                          <RotationCard
+                            title="Rotation 2"
+                            name={day[1].courseName || "not scheduled"}
+                            room={day[1].courseRoom || ""}
+                            openModal={openModal}
+                            classid={day[1].periodId}
+                            dayOff={index}
+                          />
+                        )}
+                        {day[2] && (
+                          <RotationCard
+                            title="Rotation 3"
+                            name={day[2].courseName || "not scheduled"}
+                            room={day[2].courseRoom || ""}
+                            openModal={openModal}
+                            classid={day[2].periodId}
+                            dayOff={index}
+                          />
+                        )}
+                        {day[3] && (
+                          <RotationCard
+                            title="Rotation 4"
+                            name={day[3].courseName || "not scheduled"}
+                            room={day[3].courseRoom || ""}
+                            openModal={openModal}
+                            classid={day[3].periodId}
+                            dayOff={index}
+                          />
+                        )}
+                      </DailyScheduleBox>
+                    </Grid>
+                  );
+                })}
           </Grid>
         </div>
       </Grid>
+      {showFlexModBeta && <FlexModsContainer />}
       {modalOpen &&
         createPortal(
           <RotationSelectModal

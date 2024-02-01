@@ -26,15 +26,14 @@ type NotifDict = {[uuid: string]: Notification & {order: number, uuid: string}};
 const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  let [notifications, setNotifications] = useState<NotifDict>({});
+  const [notifications, setNotifications] = useState<NotifDict>({});
   const orderedNotifs = useMemo(() => toSorted(Object.values(notifications || {}), (a, b) => a.order - b.order), [notifications])
   
   function addNotification(notif: Notification): string {
     const uuid = crypto.randomUUID();
     const addition: NotifDict = {};
     addition[uuid] = {...notif, order: Object.keys(notifications).length, uuid};
-    notifications = Object.assign(addition, notifications);
-    setNotifications(Object.assign(addition, notifications));
+    setNotifications(notifs => Object.assign(addition, notifs));
 
     return uuid;
   }

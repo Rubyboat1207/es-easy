@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext, useEffect } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import { ThemeObject, theme_dark } from '../util/themes';
 import { ThemeProvider, createTheme } from '@mui/material';
 

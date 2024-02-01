@@ -78,7 +78,7 @@ export default function Login() {
       if (event.key === "a") {
         setKeyProgress(-1);
         window.localStorage.setItem('winner', 'yes');
-        alert('you are have winner!')
+        alert('you have unlocked developer mode! use the new developer mode menu in the top right.')
         location.reload();
       } else setKeyProgress(0);
     }

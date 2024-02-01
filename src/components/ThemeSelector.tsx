@@ -2,11 +2,14 @@ import React, { useEffect } from 'react';
 import { Select, MenuItem } from '@mui/material';
 import { theme_american, theme_dark, theme_dracula, theme_light, theme_purple, theme_red, theme_titan } from '../util/themes';
 import { useJSONTheme } from '../contexts/ThemeContext';
+import { useSecretMode } from '../contexts/SecretModeContexts';
 
 // Theme Select Component
 const ThemeSelect: React.FC = () => {
   const [theme, setTheme] = React.useState(localStorage.getItem('theme') || 'dark');
   const { setThemeJson } = useJSONTheme();
+
+  const { showHiddenThemes } = useSecretMode();
 
   const themes: {[key: string]: string} = {
     dark: theme_dark,
@@ -17,7 +20,7 @@ const ThemeSelect: React.FC = () => {
     robotics: theme_titan
   }
 
-  if(window.localStorage.getItem('winner') === 'yes') {
+  if(showHiddenThemes) {
     themes['america'] = theme_american;
   }
 
