@@ -94,7 +94,7 @@ const App: React.FC = () => {
       .then((res) => {
         const view: ScheduleView[] = res.data;
         const relevantItems = view.filter((v) =>
-          v.periodDescription.startsWith("Rotation") || v.periodDescription.startsWith("Flex Mod")
+          v.periodDescription.startsWith("Rotation") || (v.periodDescription.startsWith("Flex Mod") && moment(v.appointmentDate).weekday() === 5)
         );
 
         const startday = startDate.clone().add(weekOffset, "w").dayOfYear();
@@ -260,6 +260,7 @@ const App: React.FC = () => {
                 ))
               : [...Array(4)].map((_, index) => {
                   const day = schedule[index];
+                  console.log(day);
                   return (
                     <Grid item xs={12} sm={6} md={true} key={index}>
                       <DailyScheduleBox
