@@ -16,14 +16,14 @@ import moment from "moment";
 import { createPortal } from "react-dom";
 import { useNotification } from "./contexts/NotificationContext";
 import Heading from "./components/Heading";
-import FlexModsContainer from "./components/FlexModsContainer";
 import { useSecretMode } from "./contexts/SecretModeContexts";
+import FlexModsContainer from "./components/FlexModsContainer";
 
 // Usage in a main component
 const App: React.FC = () => {
   const [schedule, setSchedule] = useState<{
     [id: number]: (ScheduleView | null)[];
-  }>();
+  } | undefined>();
   const [changes, setChanges] = useState<CourseChange[]>([]);
   const [weekOffset, setWeekOffset] = useState<number>(0);
   const navigate = useNavigate();
@@ -94,7 +94,7 @@ const App: React.FC = () => {
       .then((res) => {
         const view: ScheduleView[] = res.data;
         const relevantItems = view.filter((v) =>
-          v.periodDescription.startsWith("Rotation")
+          v.periodDescription.startsWith("Rotation") || v.periodDescription.startsWith("Flex Mod")
         );
 
         const startday = startDate.clone().add(weekOffset, "w").dayOfYear();
@@ -103,11 +103,18 @@ const App: React.FC = () => {
 
         for (const item of relevantItems) {
           const day = moment(item.appointmentDate).dayOfYear() - startday; // will always work because we dont use this on year borders
+          let idx;
+          if(item.periodDescription.startsWith("Rotation")) {
+            idx = parseInt(item.periodDescription.substring("Rotation ".length)) - 1;
+          }else {
+            idx = parseInt(item.periodDescription.substring("Flex Mod ".length)) - 1;
+          }
           if (!scheduleMap[day]) {
-            scheduleMap[day] = [null, null, null, null];
+            // last null is unused for rotation schedule
+            scheduleMap[day] = [null, null, null, null, null];
           }
           scheduleMap[day][
-            parseInt(item.periodDescription.substring("Rotation ".length)) - 1
+            idx
           ] = item;
         }
 
@@ -310,7 +317,7 @@ const App: React.FC = () => {
           </Grid>
         </div>
       </Grid>
-      {showFlexModBeta && <FlexModsContainer />}
+      {showFlexModBeta && <FlexModsContainer coursesList={schedule} setChanges={setChanges}/>}
       {modalOpen &&
         createPortal(
           <RotationSelectModal
