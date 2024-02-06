@@ -14,7 +14,7 @@ const JSONThemeContext = createContext<ThemeContextProps | undefined>(undefined)
 
 // Step 2: Define the provider component
 const JSONThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [themeJson, setThemeJson] = useState<string>(theme_dark);
+    const [themeJson, setThemeJson] = useState<string>(localStorage.getItem('theme') || theme_dark);
 
     const theme: ThemeObject = getThemeObject() || JSON.parse(theme_dark);
 
@@ -65,7 +65,13 @@ const JSONThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 
 
     function getThemeObject() {
-        return themeJson ? JSON.parse(themeJson) as ThemeObject : JSON.parse(theme_dark);
+        try {
+            return themeJson ? JSON.parse(themeJson) as ThemeObject : JSON.parse(theme_dark);
+        }catch {
+            setThemeJson(theme_dark);
+            return JSON.parse(theme_dark);
+        }
+        
     }
 
 
