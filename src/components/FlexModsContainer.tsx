@@ -42,13 +42,14 @@ const FlexModsContainer: React.FC<FlexModsProps> = ({
             }}
           >
             <Typography variant="h4" component="div" color={"text"}>
-              Flex Mod Friday (Read Only)
+              Flex Mod Friday
             </Typography>
           </Card>
         </Grid>
         <Grid
           container
           spacing={2}
+          
           sx={{
             width: "90%",
             display: "flex",

@@ -1,4 +1,4 @@
-import { Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Grid, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
 import FlexModCard from "./FlexModCard";
 import React from "react";
 import { CourseChange } from "../Rotationcard";
@@ -17,11 +17,11 @@ const FlexMod: React.FC<FlexModProperties> = ({courseName, courseRoom, periodId,
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
+    <Grid item xs={12} sm={5} md={true} >
     <Paper
       elevation={1}
       sx={{
         padding: "0px 20px 10px 20px",
-        width: isSmallScreen ? undefined : "15%",
         display: "flex",
         justifyContent: "center",
         flexDirection: "column",
@@ -43,6 +43,7 @@ const FlexMod: React.FC<FlexModProperties> = ({courseName, courseRoom, periodId,
         setChanges={setChanges}
       />
     </Paper>
+    </Grid>
   );
 };
 
