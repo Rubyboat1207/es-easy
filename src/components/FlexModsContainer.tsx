@@ -1,8 +1,4 @@
-import {
-  Card,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Card, Grid, Typography } from "@mui/material";
 import { ScheduleView } from "../types";
 import { CourseChange } from "./Rotationcard";
 import FlexMod from "./flexmods/FlexMod";
@@ -14,11 +10,13 @@ interface FlexModsProps {
       }
     | undefined;
   setChanges: React.Dispatch<React.SetStateAction<CourseChange[]>>;
+  date: moment.Moment;
 }
 
 const FlexModsContainer: React.FC<FlexModsProps> = ({
   coursesList,
-  // setChanges,
+  setChanges,
+  date,
 }) => {
   return (
     <>
@@ -59,10 +57,26 @@ const FlexModsContainer: React.FC<FlexModsProps> = ({
         >
           {coursesList
             ? coursesList[4].map((c, idx) => (
-              <FlexMod course={c} index={idx}/>
+                <FlexMod
+                  courseName={c?.courseName || ""}
+                  courseRoom={c?.courseRoom || ""}
+                  formatted_date={
+                    c?.appointmentDate || date.format("YYYY-MM-DD")
+                  }
+                  periodId={c?.periodId || 16 + idx}
+                  index={idx}
+                  setChanges={setChanges}
+                />
               ))
             : [...Array(5)].map((_, idx) => (
-                <FlexMod course={null} index={idx}/>
+                <FlexMod
+                  courseName={"Not Scheduled"}
+                  courseRoom={""}
+                  formatted_date={date.format("YYYY-MM-DD")}
+                  periodId={16 + idx}
+                  index={idx}
+                  setChanges={setChanges}
+                />
               ))}
         </Grid>
       </div>

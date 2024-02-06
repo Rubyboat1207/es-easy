@@ -67,7 +67,7 @@ interface RotationSelectionProps {
     seatsLeft: number;
 }
 
-const RotationSelection: React.FC<RotationSelectionProps> = ({ title, subtitle, seatsLeft, onClick}) => {
+export const RotationSelection: React.FC<RotationSelectionProps> = ({ title, subtitle, seatsLeft, onClick}) => {
     const { getThemeObject } = useJSONTheme();
 
     const themeObject = getThemeObject();

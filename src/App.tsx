@@ -318,7 +318,7 @@ const App: React.FC = () => {
           </Grid>
         </div>
       </Grid>
-      {showFlexModBeta && <FlexModsContainer coursesList={schedule} setChanges={setChanges}/>}
+      {showFlexModBeta && <FlexModsContainer coursesList={schedule} setChanges={setChanges} date={startDate.clone().add(weekOffset, 'w').add(4, 'd')}/>}
       {modalOpen &&
         createPortal(
           <RotationSelectModal
