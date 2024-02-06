@@ -17,7 +17,8 @@ import { createPortal } from "react-dom";
 import { useNotification } from "./contexts/NotificationContext";
 import Heading from "./components/Heading";
 import { useSecretMode } from "./contexts/SecretModeContexts";
-import FlexModsContainer from "./components/FlexModsContainer";
+import FlexModsContainer from "./components/flexmods/FlexModsContainer";
+import { CourseContextProvider } from "./contexts/ChangelogContext";
 
 // Usage in a main component
 const App: React.FC = () => {
@@ -182,6 +183,7 @@ const App: React.FC = () => {
 
   return (
     <>
+    <CourseContextProvider changes={changes} setChanges={setChanges} courses={schedule ? Object.values(schedule).flat(1) : []}>
       <Grid container spacing={2}>
         <Heading />
         <Grid
@@ -333,6 +335,7 @@ const App: React.FC = () => {
           />,
           document.body
         )}
+      </CourseContextProvider>
     </>
   );
 };

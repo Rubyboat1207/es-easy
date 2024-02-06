@@ -7,12 +7,15 @@ import CodeIcon from "@mui/icons-material/Code";
 import { useLogin } from "../contexts/LoginContext";
 import { useSecretMode } from "../contexts/SecretModeContexts";
 import { useJSONTheme } from "../contexts/ThemeContext";
+import { createPortal } from "react-dom";
+import ThemeModal from "./ThemeEditor/ThemeModal";
 
 interface HeadingProps {}
 
 const Heading: React.FC<HeadingProps> = ({}) => {
   const [profileOpen, setProfileOpen] = useState<boolean>(false);
   const [devMenuOpen, setDevMenuOpen] = useState<boolean>(false);
+  const [themeEditorOpen, setThemeEditorOpen] = useState<boolean>(false);
   const navigate = useNavigate();
   const { getThemeObject } = useJSONTheme();
 
@@ -101,9 +104,17 @@ const Heading: React.FC<HeadingProps> = ({}) => {
               />
             </MenuItem>
             <MenuItem
+              onClick={() => {
+                setDevMenuOpen(false)
+                setThemeEditorOpen(true)
+              }}
+            >
+              Theme Editor
+            </MenuItem>
+            <MenuItem
               onClick={() =>
                 alert(
-                  "click on the edit buttons to open a window that lets you select from avaliable classes. when you're done, click the Save Changes button."
+                  "Click on the various beta options to enable them! These options are not easy to get on purpose, so expect bugs. Here be dragons!"
                 )
               }
             >
@@ -112,6 +123,7 @@ const Heading: React.FC<HeadingProps> = ({}) => {
           </Menu>
         </>
       )}
+      {themeEditorOpen && createPortal(<ThemeModal onClose={() => setThemeEditorOpen(false)}/>, document.body)}
     </Grid>
   );
 };

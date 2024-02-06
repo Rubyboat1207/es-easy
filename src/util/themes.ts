@@ -15,6 +15,24 @@ export interface ThemeObject {
     theme_name?: string;
 }
 
+export const ThemeObjectDef = {
+    background_color: 'color',
+    card_background_color: 'color',
+    background_image_url: 'string',
+    positive_notification_color: 'color',
+    error_notification_color: 'color',
+    primary_color: 'color',
+    primary_text_color: 'color',
+    secondary_color: 'color',
+    secondary_text_color: 'color',
+    rotation_card_background_color: 'color',
+    icon_color: 'color',
+    header_background_color: 'color',
+    header_drop_shadow_color: 'color',
+    theme_name: 'string',
+};
+
+
 import america from "../assets/american-flag-america.gif"
 import robob from "../assets/robob.png"
 

@@ -7,6 +7,7 @@ import { Course, ScheduleListResponse } from '../types';
 import { useLogin } from '../contexts/LoginContext';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useJSONTheme } from '../contexts/ThemeContext';
+import { useCourseContextProvider } from '../contexts/ChangelogContext';
 
 interface RotationCardProps {
     title: string;
@@ -65,9 +66,10 @@ interface RotationSelectionProps {
     subtitle: string;
     onClick: () => void;
     seatsLeft: number;
+    hasAlreadyScheduled: boolean;
 }
 
-export const RotationSelection: React.FC<RotationSelectionProps> = ({ title, subtitle, seatsLeft, onClick}) => {
+export const RotationSelection: React.FC<RotationSelectionProps> = ({ title, subtitle, seatsLeft, onClick, hasAlreadyScheduled}) => {
     const { getThemeObject } = useJSONTheme();
 
     const themeObject = getThemeObject();
@@ -83,6 +85,10 @@ export const RotationSelection: React.FC<RotationSelectionProps> = ({ title, sub
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
                         {subtitle}
                     </Typography>
+                    {hasAlreadyScheduled &&
+                    <Typography sx={{ mb: 1.5, color: 'red' }}>
+                        You have already scheduled this mod! Don't schedule it again unless you know what you're doing!
+                    </Typography>}
                     <CardActions>
                         <Typography>seats {seatsLeft}</Typography>
                         <IconButton onClick={onClick}>
@@ -98,6 +104,7 @@ export const RotationSelection: React.FC<RotationSelectionProps> = ({ title, sub
 export const RotationSelectModal: React.FC<RotationSelectModalProps> = ({ onClose, classid, datefmted, onSubmit }) => {
     const { token } = useLogin();
     const [classes, setClasses] = useState<Course[]>();
+    const {changes, courses} = useCourseContextProvider()
 
     useEffect(() => {
         axios.post('https://titanschedule.com:8533/api', {
@@ -127,7 +134,7 @@ export const RotationSelectModal: React.FC<RotationSelectModalProps> = ({ onClos
                     </div>
                     <div>
                         {classes?.map(c => (
-                            <RotationSelection title={c.courseNameOriginal} subtitle={`${c.stafferFirstName} ${c.stafferLastName}`} onClick={() => onSubmit({
+                            <RotationSelection title={c.courseNameOriginal} hasAlreadyScheduled={changes.filter((o) => o.courseName === c.courseNameOriginal && o.date === c.appointmentDate).length > 0 || courses.filter(o => o?.courseName === c.courseNameOriginal && o.appointmentDate === c.appointmentDate).length > 0} subtitle={`${c.stafferFirstName} ${c.stafferLastName}`}  onClick={() => onSubmit({
                                 courseName: c.courseNameOriginal,
                                 courseRoom: c.courseRoom,
                                 rotationId: classid,

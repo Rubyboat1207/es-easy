@@ -1,7 +1,7 @@
 import { Card, Grid, Typography } from "@mui/material";
-import { ScheduleView } from "../types";
-import { CourseChange } from "./Rotationcard";
-import FlexMod from "./flexmods/FlexMod";
+import { ScheduleView } from "../../types";
+import { CourseChange } from "../Rotationcard";
+import FlexMod from "./FlexMod";
 
 interface FlexModsProps {
   coursesList:

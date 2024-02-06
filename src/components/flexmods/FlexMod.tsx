@@ -25,7 +25,6 @@ const FlexMod: React.FC<FlexModProperties> = ({courseName, courseRoom, periodId,
         display: "flex",
         justifyContent: "center",
         flexDirection: "column",
-        // marginTop: isSmallScreen,
       }}
     >
       <Typography
