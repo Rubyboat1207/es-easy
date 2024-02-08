@@ -38,6 +38,7 @@ import robob from "../assets/robob.png"
 
 export const theme_dark = JSON.stringify({
     background_color: '#212121',
+    header_background_color: '#FFFFFF00',
     card_background_color: '#1E1E1E',
     rotation_card_background_color: '#282828',
     primary_color: '#409bdb',
@@ -46,6 +47,8 @@ export const theme_dark = JSON.stringify({
     secondary_text_color: '#cccccc',
     header_drop_shadow_color: '0px 5px 15px black',
     theme_name: 'Dark',
+    positive_notification_color: '#6ccc54',
+    error_notification_color: '#cc5454',
 } as ThemeObject)
 
 export const theme_dracula = JSON.stringify({
@@ -59,6 +62,8 @@ export const theme_dracula = JSON.stringify({
     icon_color: '#8BE9FD',
     header_drop_shadow_color: '0px 5px 15px black',
     theme_name: 'Dracula',
+    positive_notification_color: '#6ccc54',
+    error_notification_color: '#cc5454',
 } as ThemeObject)
 
 export const theme_light = JSON.stringify({
@@ -71,6 +76,8 @@ export const theme_light = JSON.stringify({
     secondary_text_color: '#000',
     header_drop_shadow_color: '0px 5px 15px #00000022',
     theme_name: 'Light',
+    positive_notification_color: '#6ccc54',
+    error_notification_color: '#cc5454',
 } as ThemeObject)
 
 export const theme_red = JSON.stringify({
@@ -83,6 +90,8 @@ export const theme_red = JSON.stringify({
     secondary_text_color: "#bbb",
     header_drop_shadow_color: '0px 5px 15px black',
     theme_name: 'Red',
+    positive_notification_color: '#6ccc54',
+    error_notification_color: '#cc5454',
 } as ThemeObject);
 
 
@@ -96,6 +105,8 @@ export const theme_purple = JSON.stringify({
     secondary_text_color: "#D3C1E5",
     header_drop_shadow_color: '0px 5px 15px black',
     theme_name: 'Purple',
+    positive_notification_color: '#6ccc54',
+    error_notification_color: '#cc5454',
 } as ThemeObject);
 
 export const theme_titan = JSON.stringify({
@@ -107,7 +118,9 @@ export const theme_titan = JSON.stringify({
     primary_text_color: "#224", // White text for contrast on darker colors
     secondary_text_color: "#335", // A very light grey that's softer than pure white
     header_drop_shadow_color: '0px 5px 15px #00000022',
-    theme_name: 'Robotics'
+    theme_name: 'Robotics',
+    positive_notification_color: '#6ccc54',
+    error_notification_color: '#cc5454',
 } as ThemeObject);
 
 export const theme_american = JSON.stringify({
@@ -120,6 +133,8 @@ export const theme_american = JSON.stringify({
     secondary_text_color: '#bbb',
     header_background_color: '#00000088',
     header_drop_shadow_color: '0px 5px 15px black',
-    theme_name: 'American'
+    theme_name: 'American',
+    positive_notification_color: '#6ccc54',
+    error_notification_color: '#cc5454',
 } as ThemeObject);
 

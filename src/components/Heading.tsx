@@ -9,6 +9,7 @@ import { useSecretMode } from "../contexts/SecretModeContexts";
 import { useJSONTheme } from "../contexts/ThemeContext";
 import { createPortal } from "react-dom";
 import ThemeModal from "./ThemeEditor/ThemeModal";
+import ArticleIcon from '@mui/icons-material/Article';
 
 interface HeadingProps {}
 
@@ -48,6 +49,11 @@ const Heading: React.FC<HeadingProps> = ({}) => {
         ref={profileAnchorElement}
       >
         <AccountCircleIcon />
+      </IconButton>
+      <IconButton
+        onClick={() => navigate('/patch_notes')}
+      >
+        <ArticleIcon />
       </IconButton>
       <Menu
         open={profileOpen}

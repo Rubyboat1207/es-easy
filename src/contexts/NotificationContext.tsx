@@ -1,6 +1,7 @@
 import React, { useState, createContext, useContext, useMemo } from "react";
 import { toSorted } from "../util/util";
 import { Button, Paper, Typography } from "@mui/material";
+import { useJSONTheme } from "./ThemeContext";
 
 interface Notification {
   text: string;
@@ -49,7 +50,7 @@ const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     
 
-    setNotifications(Object.assign(addition, notifications));
+    setNotifications(notifs => Object.assign(addition, notifs));
 
     return uuids;
   }
@@ -69,10 +70,14 @@ const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
     setNotifications(notifs);
   }
 
+  const { getThemeObject } = useJSONTheme();
+
+  const theme = getThemeObject();
+
   function getColor(col: string) {
     const colors: {[key: string]: string} = {
-      'ok': '#6ccc54',
-      'error': '#cc5454'
+      'ok': theme.positive_notification_color,
+      'error': theme.error_notification_color
     }
 
     if(Object.keys(colors).includes(col)) {

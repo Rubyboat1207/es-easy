@@ -74,9 +74,14 @@ const JSONThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }
         
     }
 
+    function updateTheme(themeJSON: string) {
+        setThemeJson(themeJSON)
+        localStorage.setItem("theme", themeJSON)
+    }
+
 
     return (
-        <JSONThemeContext.Provider value={{ themeJson, setThemeJson, getThemeObject }}>
+        <JSONThemeContext.Provider value={{ themeJson, setThemeJson: updateTheme, getThemeObject }}>
             <ThemeProvider theme={muiTheme}>
                 {children}
             </ThemeProvider>
@@ -88,7 +93,7 @@ const JSONThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 const useJSONTheme: () => ThemeContextProps = () => {
     const context = useContext(JSONThemeContext);
     if (!context) {
-        throw new Error('useLogin must be used within a LoginProvider');
+        throw new Error('useJSONTheme Theme must be used within a Theme Provider');
     }
     return context;
 };

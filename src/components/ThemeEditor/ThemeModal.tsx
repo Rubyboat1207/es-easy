@@ -9,7 +9,7 @@ const ThemeModal: React.FC<ThemeModalProps> = ({onClose}) => {
   return (
     <div className="modal">
       <Card sx={{ width: "95vw", height: "95vh", zIndex: 500 }}>
-        <CardContent>
+        <CardContent sx={{height: '100%'}}>
           <div
             style={{
               display: "flex",
@@ -22,11 +22,23 @@ const ThemeModal: React.FC<ThemeModalProps> = ({onClose}) => {
               <CloseIcon />
             </IconButton>
           </div>
-          <Grid container sm={2}>
-            <Grid item>
-
+          <Grid container sx={{height: '100%'}}>
+            <Grid item sm={8}>
+              <div style={{display: 'flex', flexDirection: 'column', height: '90%'}}>
+                <div>Heading</div>
+                <div style={{display: 'flex', width: '100%', justifyContent: 'space-between', height: '100%'}}>
+                  <div>Day View</div>
+                  <div>
+                    rotation selector
+                  </div>
+                  <div style={{display: 'flex', height: '100%', justifyContent: 'space-between', flexDirection: 'column'}}>
+                    <div>buttons</div>
+                    <div>notifications</div>
+                  </div>
+                </div>
+              </div>
             </Grid>
-            <Grid item>
+            <Grid item sm={4} sx={{backgroundColor: '#000'}}>
                 
             </Grid>
           </Grid>
