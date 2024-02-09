@@ -3,7 +3,7 @@ name: SSH and Deploy
 on:
   push:
     branches:
-      - main
+      - main # or your specific branch
 
 jobs:
   deploy:
@@ -21,5 +21,6 @@ jobs:
           script: |
             cd es-easy
             git pull
+            npm install
             npx vite build
             sudo cp -r ./dist/** /var/www/html
