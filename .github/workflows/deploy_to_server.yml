@@ -21,6 +21,7 @@ jobs:
           script: |
             cd es-easy
             git pull
+            source ~/.bashrc
             npm install
             npx vite build
             sudo cp -r ./dist/** /var/www/html
