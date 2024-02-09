@@ -21,7 +21,8 @@ jobs:
           script: |
             cd es-easy
             git pull
-            source ~/.bashrc
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
             npm install
             npx vite build
             sudo cp -r ./dist/** /var/www/html
