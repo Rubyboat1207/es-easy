@@ -19,10 +19,18 @@ const ThemeSelect: React.FC = () => {
     purple: theme_purple,
     robotics: theme_titan
   }
+  const custom_theme = localStorage.getItem('custom_theme')
 
   if(showHiddenThemes) {
     themes['america'] = theme_american;
   }
+
+
+  if(custom_theme) {
+    // console.log(custom_theme)
+    themes['custom'] = custom_theme
+  }
+
 
   // useEffect(() => {
   //   if(Object.keys(themes).includes(theme)) {

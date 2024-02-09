@@ -13,9 +13,10 @@ export interface ThemeObject {
     header_background_color: string;
     header_drop_shadow_color: string;
     theme_name?: string;
+    is_custom: boolean;
 }
 
-export const ThemeObjectDef = {
+export const ThemeObjectDef: {[key: string]: string} = {
     background_color: 'color',
     card_background_color: 'color',
     background_image_url: 'string',

@@ -1,0 +1,51 @@
+.heading {
+
+}
+
+.dayViewContainer {
+    width: 33%;
+}
+
+.dayView {
+    height: 100%;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.day {
+    height: 100px;
+    width: 95%;
+    border-radius: 10px;
+}
+
+.rotationSelector {
+
+}
+
+.rotationSelectorContainer {
+
+}
+
+.notification {
+    height: 90px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.notificationContainer {
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-right: 5px;
+}
+
+.buttonContainer {
+
+}
+
+.button {
+
+}

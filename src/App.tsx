@@ -57,6 +57,8 @@ const App: React.FC = () => {
       navigate("/");
     }
 
+    
+
     window.addEventListener("keydown", handleKeyPress);
 
     // Removing the event listener on cleanup
@@ -66,9 +68,31 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const beforeUnload = (e: BeforeUnloadEvent) => {
+      if(changes.length > 0) {
+        e.preventDefault();
+        const message = 'Save your changes before you leave the site!';
+        // for chrome
+        e.returnValue = message;
+
+        return message;
+      }
+    }
+
+    window.addEventListener('beforeunload', beforeUnload);
+
+    return (() => {
+      window.removeEventListener('beforeunload', beforeUnload);
+    })
+  }, [changes])
+
+  useEffect(() => {
+
+
     if (isLoggedIn) {
       refreshSchedule();
     }
+
   }, [weekOffset, isLoggedIn]);
 
   const periodIdToRotationId: { [id: number]: number } = {
@@ -305,7 +329,7 @@ const App: React.FC = () => {
                   ))
                 : [...Array(4)].map((_, index) => {
                     const day = schedule[index];
-                    console.log(day);
+                    // console.log(day);
                     return (
                       <Grid item xs={12} sm={6} md={true} key={index}>
                         <DailyScheduleBox
