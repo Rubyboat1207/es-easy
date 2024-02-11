@@ -52,11 +52,11 @@ const ThemeSelect: React.FC = () => {
       displayEmpty
       inputProps={{ 'aria-label': 'Without label' }}
     >
-      <MenuItem value="" disabled>
+      <MenuItem value="" disabled key={0}>
         Theme
       </MenuItem>
-      {Object.values(themes).map((k: string) => (
-        <MenuItem value={k}>{JSON.parse(k).theme_name}</MenuItem>
+      {Object.values(themes).map((k: string, idx) => (
+        <MenuItem value={k} key={idx}>{JSON.parse(k).theme_name}</MenuItem>
       ))}
     </Select>
   );

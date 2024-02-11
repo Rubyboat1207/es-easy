@@ -25,6 +25,48 @@ const ChangeLog: React.FC = () => {
           <Card>
             <CardContent>
               <Typography variant="h4" component="div">
+                Version 1.1.4
+              </Typography>
+              <Grid container marginTop={2}>
+                <Grid item>
+                  <StarIcon sx={{ width: '30px', height: '30px' }} />
+                </Grid>
+                <Grid item marginLeft={1}>
+                  <Typography sx={{ fontSize: '20px' }}>
+                    Release Notes
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Typography component={'ul'}>
+                <li>Most success notifications now fade out eventually</li>
+                <li>Notifications now have an enter and exit animation</li>
+                <li><strong>Remember me</strong> option added to login page</li>
+                <li>Added failure notification to login screen</li>
+                <li>(internal) Fixed semantics that caused error logs</li>
+              </Typography>
+              <Grid container marginTop={2}>
+                <Grid item>
+                  <CodeIcon sx={{ width: '30px', height: '30px' }} />
+                </Grid>
+                <Grid item marginLeft={1}>
+                  <Typography sx={{ fontSize: '20px' }}>Beta Notes</Typography>
+                </Grid>
+              </Grid>
+              <Typography component={'ul'}>
+                <li>
+                  Theme Editor
+                  <ul>
+                    <li>Themes now have a name by default, meaning they will not automatically show up as invisible in the selection dropdown</li>
+                  </ul>
+                </li>
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item sm={10} marginTop={10} width={'95%'}>
+          <Card>
+            <CardContent>
+              <Typography variant="h4" component="div">
                 Version 1.1.3
               </Typography>
               <Grid container marginTop={2}>

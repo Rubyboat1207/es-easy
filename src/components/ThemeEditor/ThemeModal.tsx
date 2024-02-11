@@ -31,7 +31,7 @@ const ThemeModal: React.FC<ThemeModalProps> = ({ onClose }) => {
 
   useEffect(() => {
     if(!themeObject.is_custom) {
-      setThemeJson(JSON.stringify(Object.assign(themeObject, {theme_name: '', is_custom: true})))
+      setThemeJson(JSON.stringify(Object.assign(themeObject, {theme_name: 'My Custom Theme', is_custom: true})))
     }
   }, [])
 

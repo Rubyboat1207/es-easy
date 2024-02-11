@@ -2,7 +2,9 @@ import {
   Button,
   Card,
   CardContent,
+  Grid,
   Link,
+  Switch,
   TextField,
   Typography,
 } from "@mui/material";
@@ -12,18 +14,40 @@ import { CredValidation, StudentCredValidation } from "./types";
 import { useLogin } from "./contexts/LoginContext";
 import { useNavigate } from "react-router-dom";
 import Heading from "./components/Heading";
+import { useNotification } from "./contexts/NotificationContext";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [keyProgress, setKeyProgress] = useState(0);
+  const [remember, setRemember] = useState<boolean>(localStorage.getItem('remember') === 'true');
 
   const { setToken } = useLogin();
 
   const navigate = useNavigate();
+  const notifs = useNotification();
 
-  async function login() {
+  useEffect(() => {
+    localStorage.setItem('remember', remember + '');
+    if(remember) {
+      const passwd = localStorage.getItem('password');
+      const usr = localStorage.getItem('username');
+      if(passwd) {
+        setPassword(passwd)
+      }
+      if(usr) {
+        setUsername(usr);
+      }
+
+      if(usr && passwd) {
+        login(usr, passwd);
+      }
+    }
+    
+  }, [remember])
+
+  async function login(username: string, password: string) {
     setIsLoggingIn(true);
     const res: CredValidation = (
       await axios.post("https://titanschedule.com:8533/api", {
@@ -47,7 +71,18 @@ export default function Login() {
       ).data;
       setToken(validate.authToken);
 
+      if(remember) {
+        localStorage.setItem('password', password);
+        localStorage.setItem('username', username);
+      }
+
       navigate("/app");
+    }else {
+      const fail_notif = notifs.addNotification({text: 'Login was unsucessful. Username or password may be wrong.', btnText: 'OK', color: 'error'});
+
+      setTimeout(() => {
+        notifs.removeNotification(fail_notif);
+      }, 10000)
     }
     setIsLoggingIn(false);
   }
@@ -141,10 +176,14 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  login();
+                  login(username, password);
                 }
               }}
             />
+            <Grid container flexDirection={'row'} alignItems={'center'}>
+            <Switch value={remember} onChange={() => setRemember(rem => !rem)}/>
+            <Typography>Remember Me</Typography>
+            </Grid>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Typography>
                 Data is not stored at any time during use.
@@ -155,7 +194,7 @@ export default function Login() {
               color="primary"
               fullWidth
               onClick={() => {
-                login();
+                login(username, password);
               }}
               disabled={isLoggingIn}
             >

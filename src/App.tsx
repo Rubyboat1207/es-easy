@@ -34,7 +34,7 @@ const App: React.FC = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalTarget, setModalTarget] = useState<number>(0); // dayOffset
   const [dayOffset, setDayOffset] = useState<number>(0);
-  const { addNotification } = useNotification();
+  const { addNotification, removeNotification } = useNotification();
 
   const startDate = moment().startOf("isoWeek");
 
@@ -214,31 +214,36 @@ const App: React.FC = () => {
     }
     let successes = total - failures;
     if (total > 0 && successes > 0) {
+      let notif: string;
       if(successes === 1 && total === 1) {
-        addNotification({
+        notif = addNotification({
           color: "ok",
           text: `Your mod was scheduled successfully!`,
           btnText: "ok",
         });
       }else if(successes === 2 && total === 2) {
-        addNotification({
+        notif = addNotification({
           color: "ok",
           text: `Both of your mods were scheduled successfully!`,
           btnText: "ok",
         });
       } else if(total !== successes) {
-        addNotification({
+        notif = addNotification({
           color: "ok",
           text: `${successes} out of ${total} Mods scheduled successfully!`,
           btnText: "ok",
         });
       }else {
-        addNotification({
+        notif = addNotification({
           color: "ok",
           text: `${successes} out of ${total} Mods scheduled successfully!`,
           btnText: "ok",
         });
       }
+
+      setTimeout(() => {
+        removeNotification(notif);
+      }, 5000)
     }
     setChanges(newChanges);
     refreshSchedule();
@@ -251,7 +256,7 @@ const App: React.FC = () => {
         setChanges={setChanges}
         courses={schedule ? Object.values(schedule).flat(1) : []}
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={2} key={0}>
           <Heading />
           <Grid
             sx={{
@@ -348,6 +353,7 @@ const App: React.FC = () => {
                               openModal={openModal}
                               classid={day[0].periodId}
                               dayOff={index}
+                              key={0}
                             />
                           )}
                           {day[1] && (
@@ -358,6 +364,7 @@ const App: React.FC = () => {
                               openModal={openModal}
                               classid={day[1].periodId}
                               dayOff={index}
+                              key={1}
                             />
                           )}
                           {day[2] && (
@@ -368,6 +375,7 @@ const App: React.FC = () => {
                               openModal={openModal}
                               classid={day[2].periodId}
                               dayOff={index}
+                              key={2}
                             />
                           )}
                           {day[3] && (
@@ -378,6 +386,7 @@ const App: React.FC = () => {
                               openModal={openModal}
                               classid={day[3].periodId}
                               dayOff={index}
+                              key={3}
                             />
                           )}
                         </DailyScheduleBox>
@@ -392,6 +401,7 @@ const App: React.FC = () => {
             coursesList={schedule}
             setChanges={setChanges}
             date={startDate.clone().add(weekOffset, "w").add(4, "d")}
+            key={1}
           />
         )}
         {modalOpen &&
@@ -405,6 +415,7 @@ const App: React.FC = () => {
                 .add(weekOffset, "w")
                 .add(dayOffset, "d")
                 .format("YYYY-MM-DD")}
+                key={3}
             />,
             document.body
           )}
