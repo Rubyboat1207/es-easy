@@ -18,7 +18,7 @@ import { useNotification } from "./contexts/NotificationContext";
 import Heading from "./components/Heading";
 import { useSecretMode } from "./contexts/SecretModeContexts";
 import FlexModsContainer from "./components/flexmods/FlexModsContainer";
-import { CourseContextProvider } from "./contexts/ChangelogContext";
+import { CourseContextProvider } from "./contexts/CourseContext";
 
 // Usage in a main component
 const App: React.FC = () => {

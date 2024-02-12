@@ -25,6 +25,46 @@ const ChangeLog: React.FC = () => {
           <Card>
             <CardContent>
               <Typography variant="h4" component="div">
+                Version 1.1.5
+              </Typography>
+              <Grid container marginTop={2}>
+                <Grid item>
+                  <StarIcon sx={{ width: '30px', height: '30px' }} />
+                </Grid>
+                <Grid item marginLeft={1}>
+                  <Typography sx={{ fontSize: '20px' }}>
+                    Release Notes
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Typography component={'ul'}>
+              <li>Fixed bug where Rotation error messages would show the wrong rotation.</li>
+              <li>Fixed bug where certain elements would render over popups</li>
+              <li>Internal Refactoring</li>
+              </Typography>
+              <Grid container marginTop={2}>
+                <Grid item>
+                  <CodeIcon sx={{ width: '30px', height: '30px' }} />
+                </Grid>
+                <Grid item marginLeft={1}>
+                  <Typography sx={{ fontSize: '20px' }}>Beta Notes</Typography>
+                </Grid>
+              </Grid>
+              <Typography component={'ul'}>
+                <li>
+                  Theme Editor
+                  <ul>
+                    <li>You can now copy the the theme JSON to your clipboard.</li>
+                  </ul>
+                </li>
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item sm={10} marginTop={10} width={'95%'}>
+          <Card>
+            <CardContent>
+              <Typography variant="h4" component="div">
                 Version 1.1.4
               </Typography>
               <Grid container marginTop={2}>

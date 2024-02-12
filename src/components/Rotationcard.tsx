@@ -13,7 +13,7 @@ import { Course, ScheduleListResponse } from "../types";
 import { useLogin } from "../contexts/LoginContext";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { useJSONTheme } from "../contexts/ThemeContext";
-import { useCourseContextProvider } from "../contexts/ChangelogContext";
+import { useCourseContextProvider } from "../contexts/CourseContext";
 
 interface RotationCardProps {
   title: string;
