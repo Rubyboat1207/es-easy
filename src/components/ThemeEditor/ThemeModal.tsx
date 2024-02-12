@@ -12,6 +12,9 @@ import { useJSONTheme } from '../../contexts/ThemeContext';
 import { ThemeObject, ThemeObjectDef } from '../../util/themes';
 import { MuiColorInput } from 'mui-color-input';
 import { useEffect } from 'react';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import { useNotification } from '../../contexts/NotificationContext';
+
 interface ThemeModalProps {
   onClose: () => void;
 }
@@ -19,7 +22,8 @@ interface ThemeModalProps {
 type GymnasticsThemeObject = ThemeObject & { [key: string]: string };
 
 const ThemeModal: React.FC<ThemeModalProps> = ({ onClose }) => {
-  const { getThemeObject, setThemeJson } = useJSONTheme();
+  const { getThemeObject, setThemeJson, themeJson } = useJSONTheme();
+  const { addNotification, removeNotification } = useNotification();
 
   const themeObject: GymnasticsThemeObject =
     getThemeObject() as unknown as GymnasticsThemeObject;
@@ -35,13 +39,22 @@ const ThemeModal: React.FC<ThemeModalProps> = ({ onClose }) => {
     }
   }, [])
 
+  function copy() {
+    navigator.clipboard.writeText(themeJson);
+    let notif = addNotification({text: "Copied JSON to clipboard", btnText: "dismiss", color: "ok"})
+
+    setTimeout(() => {
+      removeNotification(notif);
+    }, 2000)
+  }
+
   return (
     <div className="modal">
       <Card
         sx={{
           width: '95vw',
           height: '95vh',
-          zIndex: 500,
+          zIndex: 600,
           backgroundColor: themeObject.background_color,
         }}
       >
@@ -54,18 +67,23 @@ const ThemeModal: React.FC<ThemeModalProps> = ({ onClose }) => {
             }}
           >
             <Typography>Theme Editor</Typography>
-            <Input
-              placeholder="Theme Name"
-              value={themeObject.theme_name}
-              sx={{color: themeObject.primary_text_color}}
-              onChange={(v) =>
-                setThemeJson(
-                  JSON.stringify(
-                    Object.assign(themeObject, { theme_name: v.target.value })
+            <Grid container item>
+              <Input
+                placeholder="Theme Name"
+                value={themeObject.theme_name}
+                sx={{color: themeObject.primary_text_color}}
+                onChange={(v) =>
+                  setThemeJson(
+                    JSON.stringify(
+                      Object.assign(themeObject, { theme_name: v.target.value })
+                    )
                   )
-                )
-              }
-            />
+                }
+              />
+              <IconButton onClick={copy}>
+                <ContentPasteIcon/>
+              </IconButton>
+            </Grid>
             <IconButton onClick={closeModal}>
               <CloseIcon />
             </IconButton>

@@ -192,11 +192,11 @@ const App: React.FC = () => {
             text: res.data.errorMessage
               ? res.data.errorMessage +
                 " for rotation " +
-                (periodIdToRotationId[change.rotationId] + 1) +
+                (periodIdToRotationId[change.rotationId]) +
                 " on " +
                 moment(change.date).format("M/DD")
               : "an unknown error occured while scheduling rotation " +
-                (periodIdToRotationId[change.rotationId] + 1) +
+                (periodIdToRotationId[change.rotationId]) +
                 " on " +
                 moment(change.date).format("M/DD"),
             btnText: "ok",
