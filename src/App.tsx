@@ -97,9 +97,9 @@ const App: React.FC = () => {
 
   const periodIdToRotationId: { [id: number]: number } = {
     4: 0,
-    6: 1,
-    7: 2,
-    9: 3,
+    7: 1,
+    9: 2,
+    14: 3,
   };
 
   function refreshSchedule() {
@@ -150,6 +150,8 @@ const App: React.FC = () => {
           }
           scheduleMap[day][idx] = item;
         }
+
+        console.log(scheduleMap)
 
         setSchedule(scheduleMap);
       });

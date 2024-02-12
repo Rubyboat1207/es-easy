@@ -25,6 +25,28 @@ const ChangeLog: React.FC = () => {
           <Card>
             <CardContent>
               <Typography variant="h4" component="div">
+                Version 1.1.6 (HOTFIX)
+              </Typography>
+              <Grid container marginTop={2}>
+                <Grid item>
+                  <StarIcon sx={{ width: '30px', height: '30px' }} />
+                </Grid>
+                <Grid item marginLeft={1}>
+                  <Typography sx={{ fontSize: '20px' }}>
+                    Release Notes
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Typography component={'ul'}>
+                <li>Fixed Rotation IDs</li>
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item sm={10} marginTop={10} width={'95%'}>
+          <Card>
+            <CardContent>
+              <Typography variant="h4" component="div">
                 Version 1.1.5
               </Typography>
               <Grid container marginTop={2}>
