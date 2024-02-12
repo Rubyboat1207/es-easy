@@ -2,7 +2,8 @@ import React, { useState, createContext, useContext, useMemo } from "react";
 import { toSorted } from "../util/util";
 import { Button, Paper, Typography } from "@mui/material";
 import { useJSONTheme } from "./ThemeContext";
-
+import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion"
 interface Notification {
   text: string;
   color: string;
@@ -29,6 +30,12 @@ const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [notifications, setNotifications] = useState<NotifDict>({});
   const orderedNotifs = useMemo(() => toSorted(Object.values(notifications || {}), (a, b) => a.order - b.order), [notifications])
+
+  const variants = {
+    initial: { opacity: 0, x: 200 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: 200 }
+  };
   
   function addNotification(notif: Notification): string {
     const uuid = crypto.randomUUID();
@@ -93,14 +100,24 @@ const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
     >
       {children}
       <div className="notificationContainter">
-        {orderedNotifs.map((n) => (
-          <Paper elevation={2} sx={{backgroundColor: getColor(n.color)}} className="notification" key={n.uuid}>
-            <Typography component={'div'} sx={{fontSize: '16px'}}>{n.text}</Typography>
-            <div className="buttonContainer">
-              <Button variant="contained" onClick={() => removeNotification(n.uuid)} color="secondary">{n.btnText}</Button>
-            </div>
-          </Paper>
-        ))}
+        <AnimatePresence>
+          {orderedNotifs.map((n) => (
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={variants}
+              transition={{ duration: 0.2 }}
+            >
+              <Paper elevation={2} sx={{backgroundColor: getColor(n.color)}} className="notification" key={n.uuid}>
+                <Typography component={'div'} sx={{fontSize: '16px'}}>{n.text}</Typography>
+                <div className="buttonContainer">
+                  <Button variant="contained" onClick={() => removeNotification(n.uuid)} color="secondary">{n.btnText}</Button>
+                </div>
+              </Paper>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     </NotificationContext.Provider>
   );

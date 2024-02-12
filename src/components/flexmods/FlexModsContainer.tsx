@@ -67,6 +67,7 @@ const FlexModsContainer: React.FC<FlexModsProps> = ({
                   periodId={c?.periodId || 16 + idx}
                   index={idx}
                   setChanges={setChanges}
+                  key={idx}
                 />
               ))
             : [...Array(5)].map((_, idx) => (
@@ -77,6 +78,7 @@ const FlexModsContainer: React.FC<FlexModsProps> = ({
                   periodId={16 + idx}
                   index={idx}
                   setChanges={setChanges}
+                  key={idx}
                 />
               ))}
         </Grid>

@@ -43,15 +43,17 @@ const Heading: React.FC<HeadingProps> = ({}) => {
       xs={12}
     >
       {/* Theme and Login Icons */}
-      <ThemeSelect />
+      <ThemeSelect key={0}/>
       <IconButton
         onClick={() => setProfileOpen(!profileOpen)}
         ref={profileAnchorElement}
+        key={1}
       >
         <AccountCircleIcon />
       </IconButton>
       <IconButton
         onClick={() => navigate('/patch_notes')}
+        key={2}
       >
         <ArticleIcon />
       </IconButton>
@@ -59,10 +61,13 @@ const Heading: React.FC<HeadingProps> = ({}) => {
         open={profileOpen}
         onClose={() => setProfileOpen(false)}
         anchorEl={profileAnchorElement.current}
+        key={3}
       >
         <MenuItem
           onClick={() => {
             sessionStorage.clear();
+            localStorage.setItem('username', '');
+            localStorage.setItem('password', '')
             navigate("/");
           }}
         >
@@ -83,6 +88,7 @@ const Heading: React.FC<HeadingProps> = ({}) => {
           <IconButton
             onClick={() => setDevMenuOpen(!devMenuOpen)}
             ref={devAnchorElement}
+            key={4}
           >
             <CodeIcon />
           </IconButton>
@@ -93,23 +99,28 @@ const Heading: React.FC<HeadingProps> = ({}) => {
           >
             <MenuItem
               onChange={() => secretmode.setShowHiddenThemes(!secretmode.showHiddenThemes)}
+              key={5}
             >
-              <Typography>Show Hidden Themes</Typography>
+              <Typography key={0}>Show Hidden Themes</Typography>
               <Switch
                 checked={secretmode.showHiddenThemes}
                 inputProps={{ 'aria-label': 'controlled' }}
+                key={1}
               />
             </MenuItem>
             <MenuItem
               onChange={() => secretmode.setShowFlexModBeta(!secretmode.showFlexModBeta)}
+              key={6}
             >
-              <Typography>Enable Flex Mod Beta</Typography>
+              <Typography key={0}>Enable Flex Mod Beta</Typography>
               <Switch
                 checked={secretmode.showFlexModBeta}
                 inputProps={{ 'aria-label': 'controlled' }}
+                key={1}
               />
             </MenuItem>
             <MenuItem
+              key={7}
               onClick={() => {
                 setDevMenuOpen(false)
                 setThemeEditorOpen(true)
@@ -118,6 +129,7 @@ const Heading: React.FC<HeadingProps> = ({}) => {
               Theme Editor
             </MenuItem>
             <MenuItem
+              key={8}
               onClick={() =>
                 alert(
                   "Click on the various beta options to enable them! These options are not easy to get on purpose, so expect bugs. Here be dragons!"
