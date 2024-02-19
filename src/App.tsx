@@ -204,6 +204,9 @@ const App: React.FC = () => {
           }
           scheduleMap[day][idx] = item;
         }
+        if (shouldIncludeFriday) {
+          scheduleMap[4][4] = null;
+        }
 
         // console.log(scheduleMap);
 

@@ -27,6 +27,31 @@ const ChangeLog: React.FC = () => {
           <Card>
             <CardContent>
               <Typography variant="h4" component="div">
+                Version 1.2.1
+              </Typography>
+              <Typography color={getThemeObject().secondary_text_color}>
+                2/19/24
+              </Typography>
+              <Grid container marginTop={2}>
+                <Grid item>
+                  <StarIcon sx={{ width: '30px', height: '30px' }} />
+                </Grid>
+                <Grid item marginLeft={1}>
+                  <Typography sx={{ fontSize: '20px' }}>
+                    Release Notes
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Typography component={'ul'}>
+                <li>Fixed bug where two <strong>Rotation 4</strong>s would show up on friday rotations.</li>
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item sm={10} marginTop={10} width={'95%'}>
+          <Card>
+            <CardContent>
+              <Typography variant="h4" component="div">
                 Version 1.2.0
               </Typography>
               <Typography color={getThemeObject().secondary_text_color}>
@@ -45,6 +70,18 @@ const ChangeLog: React.FC = () => {
               <Typography component={'ul'}>
                 <li>Added support for Holidays</li>
                 <li>Added support for Friday Rotations if there are more than 2 days missing in a given week</li>
+              </Typography>
+              <Grid container marginTop={2}>
+                <Grid item>
+                  <CodeIcon sx={{ width: '30px', height: '30px' }} />
+                </Grid>
+                <Grid item marginLeft={1}>
+                  <Typography sx={{ fontSize: '20px' }}>Beta Notes</Typography>
+                </Grid>
+              </Grid>
+              <Typography component={'ul'}>
+              <li>Friday flex mods are hidden on days with a friday rotation</li>
+              <li>Friday flex mods are hidden on days where friday is a missing day.</li>
               </Typography>
             </CardContent>
           </Card>
