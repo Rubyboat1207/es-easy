@@ -8,7 +8,7 @@ interface DailyScheduleBoxProps {
 }
 
 const DailyScheduleBox: React.FC<DailyScheduleBoxProps> = ({ day, children, dayOfTheMonth }) => {
-    const dotw = ['Monday', 'Tuesday', 'Wednesday', 'Thursday']
+    const dotw = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
     return (
         <Paper
             elevation={1}

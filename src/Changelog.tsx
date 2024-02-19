@@ -4,10 +4,12 @@ import StarIcon from '@mui/icons-material/Star';
 import CodeIcon from '@mui/icons-material/Code';
 import { useLogin } from './contexts/LoginContext';
 import { useNavigate } from 'react-router-dom';
+import { useJSONTheme } from './contexts/ThemeContext';
 
 const ChangeLog: React.FC = () => {
   const { isLoggedIn } = useLogin();
   const navigate = useNavigate();
+  const { getThemeObject } = useJSONTheme();
 
   return (
     <>
@@ -25,7 +27,36 @@ const ChangeLog: React.FC = () => {
           <Card>
             <CardContent>
               <Typography variant="h4" component="div">
+                Version 1.2.0
+              </Typography>
+              <Typography color={getThemeObject().secondary_text_color}>
+                2/19/24
+              </Typography>
+              <Grid container marginTop={2}>
+                <Grid item>
+                  <StarIcon sx={{ width: '30px', height: '30px' }} />
+                </Grid>
+                <Grid item marginLeft={1}>
+                  <Typography sx={{ fontSize: '20px' }}>
+                    Release Notes
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Typography component={'ul'}>
+                <li>Added support for Holidays</li>
+                <li>Added support for Friday Rotations if there are more than 2 days missing in a given week</li>
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item sm={10} marginTop={10} width={'95%'}>
+          <Card>
+            <CardContent>
+              <Typography variant="h4" component="div">
                 Version 1.1.6 (HOTFIX)
+              </Typography>
+              <Typography color={getThemeObject().secondary_text_color}>
+                2/12/24
               </Typography>
               <Grid container marginTop={2}>
                 <Grid item>
@@ -48,6 +79,9 @@ const ChangeLog: React.FC = () => {
             <CardContent>
               <Typography variant="h4" component="div">
                 Version 1.1.5
+              </Typography>
+              <Typography color={getThemeObject().secondary_text_color}>
+                2/12/24
               </Typography>
               <Grid container marginTop={2}>
                 <Grid item>
@@ -88,6 +122,9 @@ const ChangeLog: React.FC = () => {
             <CardContent>
               <Typography variant="h4" component="div">
                 Version 1.1.4
+              </Typography>
+              <Typography color={getThemeObject().secondary_text_color}>
+                2/10/24
               </Typography>
               <Grid container marginTop={2}>
                 <Grid item>
