@@ -68,7 +68,7 @@ const App: React.FC = () => {
           .format('MM-DD-YYYY')
       )
     ) {
-      console.log('off on day idx ', idx);
+      // console.log('off on day idx ', idx);
       return true;
     }
 
@@ -77,7 +77,7 @@ const App: React.FC = () => {
 
   const shouldIncludeFriday = useMemo(() => {
     let days_off = 0;
-    console.log(caleventmap);
+    // console.log(caleventmap);
     // TODO add support for multiday breaks
     for (let day = 0; day < 5; day++) {
       if(isDayIdxOff(day)) {
@@ -85,7 +85,7 @@ const App: React.FC = () => {
       }
     }
 
-    console.log(days_off >= 2);
+    // console.log(days_off >= 2);
 
     return days_off >= 2;
   }, [caleventmap, weekOffset]);
@@ -140,10 +140,10 @@ const App: React.FC = () => {
 
   useEffect(() => {
     setSchedule(undefined);
-    if (isLoggedIn) {
+    if (isLoggedIn && caleventmap) {
       refreshSchedule();
     }
-  }, [weekOffset, isLoggedIn]);
+  }, [weekOffset, isLoggedIn, caleventmap]);
 
   const periodIdToRotationId: { [id: number]: number } = {
     4: 0,
@@ -172,10 +172,19 @@ const App: React.FC = () => {
       .then((res) => {
         const view: ScheduleView[] = res.data;
         const relevantItems = view.filter(
-          (v) =>
-            v.periodDescription.startsWith('Rotation') ||
-            (v.periodDescription.startsWith('Flex Mod') &&
-              moment(v.appointmentDate).weekday() === 5)
+          (v) => {
+            // on weeks where friday rotation
+            if(shouldIncludeFriday) {
+              return v.periodDescription.startsWith('Rotation');
+            }
+
+            if(v.periodDescription.startsWith('Rotation')) {
+              return moment(v.appointmentDate).weekday() !== 5;
+            }else if(v.periodDescription.startsWith('Flex')) {
+              console.log('got here!')
+              return moment(v.appointmentDate).weekday() === 5;
+            }
+          }
         );
 
         const startday = startDate.clone().add(weekOffset, 'w').dayOfYear();
@@ -194,9 +203,6 @@ const App: React.FC = () => {
             idx =
               parseInt(item.periodDescription.substring('Flex Mod '.length)) -
               1;
-            if (shouldIncludeFriday) {
-              continue;
-            }
           }
           if (!scheduleMap[day]) {
             // last null is unused for rotation schedule
@@ -208,7 +214,7 @@ const App: React.FC = () => {
           scheduleMap[4][4] = null;
         }
 
-        // console.log(scheduleMap);
+        console.log(scheduleMap);
 
         setSchedule(scheduleMap);
       });

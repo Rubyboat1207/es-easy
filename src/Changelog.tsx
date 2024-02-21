@@ -27,6 +27,32 @@ const ChangeLog: React.FC = () => {
           <Card>
             <CardContent>
               <Typography variant="h4" component="div">
+                Version 1.2.2
+              </Typography>
+              <Typography color={getThemeObject().secondary_text_color}>
+                2/21/24
+              </Typography>
+              <Grid container marginTop={2}>
+                <Grid item>
+                  <StarIcon sx={{ width: '30px', height: '30px' }} />
+                </Grid>
+                <Grid item marginLeft={1}>
+                  <Typography sx={{ fontSize: '20px' }}>
+                    Release Notes
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Typography component={'ul'}>
+              <li>Fixed bug where two <strong>Rotation 4</strong>s would show up on friday rotations (last fix didnt work in all cases)</li>
+              <li>Fixed visual bug where all <strong>Friday Rotations</strong> are marked as not scheduled when refreshed.</li>
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item sm={10} marginTop={10} width={'95%'}>
+          <Card>
+            <CardContent>
+              <Typography variant="h4" component="div">
                 Version 1.2.1
               </Typography>
               <Typography color={getThemeObject().secondary_text_color}>
