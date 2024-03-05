@@ -19,6 +19,7 @@
     height: 100px;
     width: 95%;
     border-radius: 10px;
+    padding: 10px 5px 5px 5px;
 }
 
 .rotationSelector {
@@ -48,4 +49,24 @@
 
 .button {
 
+}
+
+.title {
+    width: 90%;
+    height: 30px;
+    border-radius: 25px;
+}
+
+.description {
+    margin-top: 20px;
+    width: 100%;
+    height: 15px;
+    border-radius: 25px;
+}
+
+.description2 {
+    margin-top: 10px;
+    width: 70%;
+    height: 15px;
+    border-radius: 25px;
 }

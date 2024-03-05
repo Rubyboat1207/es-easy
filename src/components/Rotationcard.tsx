@@ -186,7 +186,7 @@ export const RotationSelectModal: React.FC<RotationSelectModalProps> = ({
   }
 
   return (
-    <div className="modal" onClick={onClose}>
+    <div className="modal">
       <Card
         sx={{
           width: "500px",
