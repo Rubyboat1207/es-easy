@@ -28,10 +28,38 @@ const ChangeLog: React.FC = () => {
           <Card>
             <CardContent>
               <Typography variant="h4" component="div">
+                Version 1.3.0
+              </Typography>
+              <Typography color={getThemeObject().secondary_text_color}>
+                3/7/24
+              </Typography>
+              <Grid container marginTop={2}>
+                <Grid item>
+                  <StarIcon sx={{ width: '30px', height: '30px' }} />
+                </Grid>
+                <Grid item marginLeft={1}>
+                  <Typography sx={{ fontSize: '20px' }}>
+                    Release Notes
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Typography component={'ul'}>
+              <li>Added the flex mod beta to be in the release!</li>
+              <ul>
+                <li>Flex mods are now grouped by category.</li>
+              </ul>
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item sm={10} marginTop={10} width={'95%'}>
+          <Card>
+            <CardContent>
+              <Typography variant="h4" component="div">
                 Version 1.2.3
               </Typography>
               <Typography color={getThemeObject().secondary_text_color}>
-                2/21/24
+                3/6/24
               </Typography>
               <Grid container marginTop={2}>
                 <Grid item>

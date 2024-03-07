@@ -5,7 +5,6 @@ interface SecretModeContextProps {
   isEnabled: boolean;
   showHiddenThemes: boolean;
   setShowHiddenThemes: (value: boolean) => void;
-  showFlexModBeta: boolean;
   setShowFlexModBeta: (value: boolean) => void;
 
 }
@@ -40,7 +39,6 @@ const SecretModeProvider: React.FC<{ children: React.ReactNode }> = ({
         isEnabled: isDevMode,
         showHiddenThemes: showHiddenThemes && isDevMode,
         setShowHiddenThemes: setShowHiddenThemesLS,
-        showFlexModBeta: showFlexModBeta && isDevMode,
         setShowFlexModBeta: setShowFlexModBetaLS
       }}
     >

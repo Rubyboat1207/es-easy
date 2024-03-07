@@ -109,17 +109,6 @@ const Heading: React.FC<HeadingProps> = ({}) => {
               />
             </MenuItem>
             <MenuItem
-              onChange={() => secretmode.setShowFlexModBeta(!secretmode.showFlexModBeta)}
-              key={6}
-            >
-              <Typography key={0}>Enable Flex Mod Beta</Typography>
-              <Switch
-                checked={secretmode.showFlexModBeta}
-                inputProps={{ 'aria-label': 'controlled' }}
-                key={1}
-              />
-            </MenuItem>
-            <MenuItem
               key={7}
               onClick={() => {
                 setDevMenuOpen(false)

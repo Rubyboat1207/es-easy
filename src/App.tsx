@@ -102,7 +102,7 @@ const App: React.FC = () => {
     }
   };
 
-  const { showFlexModBeta } = useSecretMode();
+  // const { showFlexModBeta } = useSecretMode();
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -478,7 +478,7 @@ const App: React.FC = () => {
             </Grid>
           </div>
         </Grid>
-        {showFlexModBeta && !shouldIncludeFriday && !isDayIdxOff(4) && (
+        {!shouldIncludeFriday && !isDayIdxOff(4) && (
           <FlexModsContainer
             coursesList={schedule}
             setChanges={setChanges}

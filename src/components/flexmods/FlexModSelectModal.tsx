@@ -1,9 +1,11 @@
-import { Card, CardContent, IconButton, Typography } from "@mui/material";
-import { CourseChange, RotationSelection } from "../Rotationcard";
-import { Course, ScheduleListResponse } from "../../types";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useLogin } from "../../contexts/LoginContext";
+import { Accordion, AccordionSummary, Card, CardContent, IconButton, Typography } from '@mui/material';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { CourseChange, RotationSelection } from '../Rotationcard';
+import { Course, ScheduleListResponse } from '../../types';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useLogin } from '../../contexts/LoginContext';
 import CloseIcon from '@mui/icons-material/Close';
 
 interface FlexModSelectModalProps {
@@ -24,9 +26,9 @@ export const FlexModSelectModal: React.FC<FlexModSelectModalProps> = ({
 
   useEffect(() => {
     axios
-      .post("https://titanschedule.com:8533/api", {
+      .post('https://titanschedule.com:8533/api', {
         url: `https://studentsapi.enrichingstudents.com/v1.0/course/forstudentscheduling/${datefmted}/${classid}`,
-        method: "get",
+        method: 'get',
         headers: {
           esauthtoken: token,
         },
@@ -39,22 +41,31 @@ export const FlexModSelectModal: React.FC<FlexModSelectModalProps> = ({
       });
   }, []);
 
+  const groupedClasses = classes?.reduce(
+    (acc: { [department: string]: Course[] }, c) => {
+      acc[c.departmentName] = acc[c.departmentName] || [];
+      acc[c.departmentName].push(c);
+      return acc;
+    },
+    {}
+  );
+
   return (
     <div className="modal">
       <Card
         sx={{
-          width: "500px",
+          width: '500px',
           zIndex: 500,
-          maxHeight: "65vh",
-          overflowY: "auto",
+          maxHeight: '65vh',
+          overflowY: 'auto',
         }}
       >
         <CardContent>
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
             }}
           >
             <Typography>Schedule A Class</Typography>
@@ -63,22 +74,35 @@ export const FlexModSelectModal: React.FC<FlexModSelectModalProps> = ({
             </IconButton>
           </div>
           <div>
-            {classes?.map((c) => (
-              <RotationSelection
-                title={c.courseNameOriginal}
-                subtitle={`${c.stafferFirstName} ${c.stafferLastName}`}
-                onClick={() =>
-                  onSubmit({
-                    courseName: c.courseNameOriginal,
-                    courseRoom: c.courseRoom,
-                    rotationId: classid,
-                    EsCourseId: c.courseId,
-                    date: c.appointmentDate,
-                  })
-                }
-                seatsLeft={c.maxNumberStudents - c.numberOfAppointments}
-              />
-            ))}
+            {groupedClasses && Object.entries(groupedClasses).map(
+              ([departmentName, departmentClasses]) => (
+                <Accordion key={departmentName} defaultExpanded>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography>{departmentName}</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    {departmentClasses.map((c: Course) => (
+                      <RotationSelection
+                        key={c.courseId}
+                        title={c.courseNameOriginal}
+                        subtitle={`${c.stafferFirstName} ${c.stafferLastName}`}
+                        onClick={() =>
+                          onSubmit({
+                            courseName: c.courseNameOriginal,
+                            courseRoom: c.courseRoom,
+                            rotationId: classid, // Ensure 'classid' is defined or passed correctly
+                            EsCourseId: c.courseId,
+                            date: c.appointmentDate,
+                          })
+                        }
+                        seatsLeft={c.maxNumberStudents - c.numberOfAppointments}
+                        hasAlreadyScheduled={false}
+                      />
+                    ))}
+                  </AccordionDetails>
+                </Accordion>
+              )
+            )}
           </div>
         </CardContent>
       </Card>
