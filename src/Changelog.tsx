@@ -15,6 +15,7 @@ const ChangeLog: React.FC = () => {
   return (
     <>
       <Heading />
+      
       <Grid container alignItems={'center'} flexDirection={'column'}>
         <Grid item container sm={10} marginTop={10} width={'95%'} justifyContent={'center'}>
           <Button
@@ -23,6 +24,49 @@ const ChangeLog: React.FC = () => {
           >
             {isLoggedIn ? 'Return to Schedule View' : 'Login'}
           </Button>
+        </Grid>
+        <Grid item sm={10} marginTop={10} width={'95%'}>
+          <Card>
+            <CardContent>
+              <Typography variant="h4" component="div">
+                Version 1.3.1
+              </Typography>
+              <Typography color={getThemeObject().secondary_text_color}>
+                4/24/24
+              </Typography>
+              <Grid container marginTop={2}>
+                <Grid item>
+                  <StarIcon sx={{ width: '30px', height: '30px' }} />
+                </Grid>
+                <Grid item marginLeft={1}>
+                  <Typography sx={{ fontSize: '20px' }}>
+                    Release Notes
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Typography component={'ul'}>
+              <li>To-be-Scheduled classes now show up highlighted in place of a "not scheduled" text.</li>
+              <li>Themes now have a new "highlighted text" color property</li>
+                <li>Reintroduced clicking off modals to close them, rather than only being able to close using the close button</li>
+              </Typography>
+              <Grid container marginTop={2}>
+                <Grid item>
+                  <CodeIcon sx={{ width: '30px', height: '30px' }} />
+                </Grid>
+                <Grid item marginLeft={1}>
+                  <Typography sx={{ fontSize: '20px' }}>Beta Notes</Typography>
+                </Grid>
+              </Grid>
+              <Typography component={'ul'}>
+                <li>
+                  Theme Editor
+                  <ul>
+                    <li>Added highlited text color property to theme editor</li>
+                  </ul>
+                </li>
+              </Typography>
+            </CardContent>
+          </Card>
         </Grid>
         <Grid item sm={10} marginTop={10} width={'95%'}>
           <Card>
@@ -44,10 +88,10 @@ const ChangeLog: React.FC = () => {
                 </Grid>
               </Grid>
               <Typography component={'ul'}>
-              <li>Added the flex mod beta to be in the release!</li>
-              <ul>
-                <li>Flex mods are now grouped by category.</li>
-              </ul>
+                <li>Added the flex mod beta to be in the release!</li>
+                <ul>
+                  <li>Flex mods a re now grouped by category.</li>
+                </ul>
               </Typography>
             </CardContent>
           </Card>

@@ -3,7 +3,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { CourseChange, RotationSelection } from '../Rotationcard';
 import { Course, ScheduleListResponse } from '../../types';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useLogin } from '../../contexts/LoginContext';
 import CloseIcon from '@mui/icons-material/Close';
@@ -23,6 +23,8 @@ export const FlexModSelectModal: React.FC<FlexModSelectModalProps> = ({
 }) => {
   const { token } = useLogin();
   const [classes, setClasses] = useState<Course[]>();
+  const modalContainer = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     axios
@@ -41,6 +43,19 @@ export const FlexModSelectModal: React.FC<FlexModSelectModalProps> = ({
       });
   }, []);
 
+  useEffect(() => {
+    const clickEvent = (event: MouseEvent) => {
+      if(event.target === modalContainer.current) {
+        onClose();
+      }
+    }
+    if(modalContainer.current !== null) {
+      modalContainer.current.addEventListener('click', clickEvent);
+
+      return () => {modalContainer.current?.removeEventListener('click', clickEvent)};
+    }
+  }, [modalContainer])
+
   const groupedClasses = classes?.reduce(
     (acc: { [department: string]: Course[] }, c) => {
       acc[c.departmentName] = acc[c.departmentName] || [];
@@ -51,7 +66,7 @@ export const FlexModSelectModal: React.FC<FlexModSelectModalProps> = ({
   );
 
   return (
-    <div className="modal">
+    <div className="modal" ref={modalContainer}>
       <Card
         sx={{
           width: '500px',
@@ -90,7 +105,7 @@ export const FlexModSelectModal: React.FC<FlexModSelectModalProps> = ({
                           onSubmit({
                             courseName: c.courseNameOriginal,
                             courseRoom: c.courseRoom,
-                            rotationId: classid, // Ensure 'classid' is defined or passed correctly
+                            periodId: classid, // Ensure 'classid' is defined or passed correctly
                             EsCourseId: c.courseId,
                             date: c.appointmentDate,
                           })

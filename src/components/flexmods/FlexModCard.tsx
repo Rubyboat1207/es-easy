@@ -11,7 +11,6 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import FlexModSelectModal from "./FlexModSelectModal";
 import { CourseChange } from "../Rotationcard";
-import { Course } from "../../types";
 
 interface FlexModCardProps {
   title: string;

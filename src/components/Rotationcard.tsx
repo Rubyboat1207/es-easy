@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { Edit as EditIcon } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Course, ScheduleListResponse } from "../types";
 import { useLogin } from "../contexts/LoginContext";
@@ -22,6 +22,7 @@ interface RotationCardProps {
   classid: number;
   openModal: (classid: number, dayoff: number) => void;
   dayOff: number;
+  highlight_text?: boolean;
 }
 
 const RotationCard: React.FC<RotationCardProps> = ({
@@ -31,6 +32,7 @@ const RotationCard: React.FC<RotationCardProps> = ({
   openModal,
   classid,
   dayOff,
+  highlight_text
 }) => {
   const { getThemeObject } = useJSONTheme();
 
@@ -52,9 +54,9 @@ const RotationCard: React.FC<RotationCardProps> = ({
           <Typography variant="h6" component="div">
             {title}
           </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          <Typography sx={{ mb: 1.5, color: (highlight_text && themeObject.highlight_text_color) || ''}} color="text.secondary">
             {subtitle} - (
-            <Typography sx={{ display: "inline" }} color="text.secondary">
+            <Typography sx={{ display: "inline", color: (highlight_text && themeObject.highlight_text_color) || '' }} color="text.secondary">
               {room}
             </Typography>
             )
@@ -76,7 +78,7 @@ const RotationCard: React.FC<RotationCardProps> = ({
 export interface CourseChange {
   courseName: string;
   courseRoom: string;
-  rotationId: number;
+  periodId: number;
   EsCourseId: number;
   date: string;
 }
@@ -153,6 +155,7 @@ export const RotationSelectModal: React.FC<RotationSelectModalProps> = ({
   const { token } = useLogin();
   const [classes, setClasses] = useState<Course[]>();
   const { changes, courses } = useCourseContextProvider();
+  const modalContainer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     axios
@@ -171,6 +174,19 @@ export const RotationSelectModal: React.FC<RotationSelectModalProps> = ({
       });
   }, []);
 
+  useEffect(() => {
+    const clickEvent = (event: MouseEvent) => {
+      if(event.target === modalContainer.current) {
+        onClose();
+      }
+    }
+    if(modalContainer.current !== null) {
+      modalContainer.current.addEventListener('click', clickEvent);
+
+      return () => {modalContainer.current?.removeEventListener('click', clickEvent)};
+    }
+  }, [modalContainer])
+
   function wasAlreadyScheduled(c: Course) {
     return (
       changes.filter(
@@ -186,7 +202,7 @@ export const RotationSelectModal: React.FC<RotationSelectModalProps> = ({
   }
 
   return (
-    <div className="modal">
+    <div className="modal" ref={modalContainer}>
       <Card
         sx={{
           width: "500px",
@@ -228,7 +244,7 @@ export const RotationSelectModal: React.FC<RotationSelectModalProps> = ({
                   onSubmit({
                     courseName: c.courseNameOriginal,
                     courseRoom: c.courseRoom,
-                    rotationId: classid,
+                    periodId: classid,
                     EsCourseId: c.courseId,
                     date: c.appointmentDate,
                   })

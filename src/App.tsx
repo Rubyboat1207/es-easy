@@ -16,7 +16,6 @@ import moment from 'moment';
 import { createPortal } from 'react-dom';
 import { useNotification } from './contexts/NotificationContext';
 import Heading from './components/Heading';
-import { useSecretMode } from './contexts/SecretModeContexts';
 import FlexModsContainer from './components/flexmods/FlexModsContainer';
 import { CourseContextProvider } from './contexts/CourseContext';
 import { getInterestingCalendarEvents } from './api/schoolwires';
@@ -80,7 +79,7 @@ const App: React.FC = () => {
     // console.log(caleventmap);
     // TODO add support for multiday breaks
     for (let day = 0; day < 5; day++) {
-      if(isDayIdxOff(day)) {
+      if (isDayIdxOff(day)) {
         days_off++;
       }
     }
@@ -171,21 +170,19 @@ const App: React.FC = () => {
       })
       .then((res) => {
         const view: ScheduleView[] = res.data;
-        const relevantItems = view.filter(
-          (v) => {
-            // on weeks where friday rotation
-            if(shouldIncludeFriday) {
-              return v.periodDescription.startsWith('Rotation');
-            }
-
-            if(v.periodDescription.startsWith('Rotation')) {
-              return moment(v.appointmentDate).weekday() !== 5;
-            }else if(v.periodDescription.startsWith('Flex')) {
-              console.log('got here!')
-              return moment(v.appointmentDate).weekday() === 5;
-            }
+        const relevantItems = view.filter((v) => {
+          // on weeks where friday rotation
+          if (shouldIncludeFriday) {
+            return v.periodDescription.startsWith('Rotation');
           }
-        );
+
+          if (v.periodDescription.startsWith('Rotation')) {
+            return moment(v.appointmentDate).weekday() !== 5;
+          } else if (v.periodDescription.startsWith('Flex')) {
+            console.log('got here!');
+            return moment(v.appointmentDate).weekday() === 5;
+          }
+        });
 
         const startday = startDate.clone().add(weekOffset, 'w').dayOfYear();
 
@@ -245,7 +242,7 @@ const App: React.FC = () => {
             courseId: change.EsCourseId,
             dateRequested: change.date,
             schedulerComment: '',
-            periodId: change.rotationId,
+            periodId: change.periodId,
           },
           headers: {
             esauthtoken: token,
@@ -257,11 +254,11 @@ const App: React.FC = () => {
             text: res.data.errorMessage
               ? res.data.errorMessage +
                 ' for rotation ' +
-                periodIdToRotationId[change.rotationId] +
+                periodIdToRotationId[change.periodId] +
                 ' on ' +
                 moment(change.date).format('M/DD')
               : 'an unknown error occured while scheduling rotation ' +
-                periodIdToRotationId[change.rotationId] +
+                periodIdToRotationId[change.periodId] +
                 ' on ' +
                 moment(change.date).format('M/DD'),
             btnText: 'ok',
@@ -385,27 +382,30 @@ const App: React.FC = () => {
               {!schedule
                 ? [...Array(shouldIncludeFriday ? 5 : 4)].map((_, index) => (
                     <>
-                    {isDayIdxOff(index) ||
-                    <Grid item xs={12} sm={6} md={true} key={index}>
-                      <DailyScheduleBox
-                        day={index}
-                        dayOfTheMonth={startDate
-                          .clone()
-                          .add(weekOffset, 'w')
-                          .add(index, 'd')
-                          .date()}
-                      >
-                        <SpinningLoader />
-                      </DailyScheduleBox>
-                    </Grid>}
+                      {isDayIdxOff(index) || (
+                        <Grid item xs={12} sm={6} md={true} key={index}>
+                          <DailyScheduleBox
+                            day={index}
+                            dayOfTheMonth={startDate
+                              .clone()
+                              .add(weekOffset, 'w')
+                              .add(index, 'd')
+                              .date()}
+                          >
+                            <SpinningLoader />
+                          </DailyScheduleBox>
+                        </Grid>
+                      )}
                     </>
                   ))
                 : [...Array(shouldIncludeFriday ? 5 : 4)].map((_, index) => {
                     const day = schedule[index];
+                    // const replacements = changes.filter(r => r.date)
                     // console.log(day);
-                    if(isDayIdxOff(index)) {
+                    if (isDayIdxOff(index)) {
                       return;
                     }
+
                     return (
                       <Grid item xs={12} sm={6} md={true} key={index}>
                         <DailyScheduleBox
@@ -416,61 +416,40 @@ const App: React.FC = () => {
                             .add(index, 'd')
                             .date()}
                         >
-                          {day[0] && (
-                            <RotationCard
-                              title="Rotation 1"
-                              name={day[0].courseName || 'not scheduled'}
-                              room={day[0].courseRoom || ''}
-                              openModal={openModal}
-                              classid={day[0].periodId}
-                              dayOff={index}
-                              key={0}
-                            />
-                          )}
-                          {day[1] && (
-                            <RotationCard
-                              title="Rotation 2"
-                              name={day[1].courseName || 'not scheduled'}
-                              room={day[1].courseRoom || ''}
-                              openModal={openModal}
-                              classid={day[1].periodId}
-                              dayOff={index}
-                              key={1}
-                            />
-                          )}
-                          {day[2] && (
-                            <RotationCard
-                              title="Rotation 3"
-                              name={day[2].courseName || 'not scheduled'}
-                              room={day[2].courseRoom || ''}
-                              openModal={openModal}
-                              classid={day[2].periodId}
-                              dayOff={index}
-                              key={2}
-                            />
-                          )}
-                          {day[3] && (
-                            <RotationCard
-                              title="Rotation 4"
-                              name={day[3].courseName || 'not scheduled'}
-                              room={day[3].courseRoom || ''}
-                              openModal={openModal}
-                              classid={day[3].periodId}
-                              dayOff={index}
-                              key={3}
-                            />
-                          )}
-                          {day[4] && (
-                            <RotationCard
-                              title="Rotation 4"
-                              name={day[4].courseName || 'not scheduled'}
-                              room={day[4].courseRoom || ''}
-                              openModal={openModal}
-                              classid={day[4].periodId}
-                              dayOff={index}
-                              key={3}
-                            />
-                          )}
+                          {[...Array(4)].map((_, innerIdx) => {
+                            const override = changes.find(
+                              (c) => c.date == day[innerIdx]?.appointmentDate && c.periodId == day[innerIdx]?.periodId
+                            );
+
+                            return (
+                            <>
+                              {(override && (
+                                <RotationCard
+                                  title={`Rotation ${innerIdx + 1}`}
+                                  name={
+                                    override.courseName || 'not scheduled'
+                                  }
+                                  room={override.courseRoom || ''}
+                                  openModal={openModal}
+                                  classid={override.periodId || 0}
+                                  dayOff={innerIdx}
+                                  key={innerIdx}
+                                  highlight_text={true}
+                                />
+                              )) ||
+                                (day[innerIdx] && (
+                                  <RotationCard
+                                    title={`Rotation ${innerIdx + 1}`}
+                                    name={day[innerIdx]?.courseName || 'not scheduled'}
+                                    room={day[innerIdx]?.courseRoom || ''}
+                                    openModal={openModal}
+                                    classid={day[innerIdx]?.periodId || 0}
+                                    dayOff={index}
+                                    key={0}
+                                  />
+                                ))}
+                            </>
+                          )})}
                         </DailyScheduleBox>
                       </Grid>
                     );
