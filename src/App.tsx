@@ -20,6 +20,9 @@ import FlexModsContainer from './components/flexmods/FlexModsContainer';
 import { CourseContextProvider } from './contexts/CourseContext';
 import { getInterestingCalendarEvents } from './api/schoolwires';
 import { SchoolWiresCalendarEvent } from './api/definitions';
+import ShareIcon from '@mui/icons-material/Share';
+import ShareScheduleDialog from './components/ShareModal';
+import { getSchedule, shareSchedule } from './api/es-easy-api';
 
 // Usage in a main component
 const App: React.FC = () => {
@@ -29,6 +32,7 @@ const App: React.FC = () => {
       }
     | undefined
   >();
+
   const [changes, setChanges] = useState<CourseChange[]>([]);
   const [weekOffset, setWeekOffset] = useState<number>(0);
   const navigate = useNavigate();
@@ -38,9 +42,12 @@ const App: React.FC = () => {
   const [calendarEvents, setCalendarEvents] = useState<
     SchoolWiresCalendarEvent[]
   >([]);
+  const [code, setCode] = useState('');
   const { addNotification, removeNotification } = useNotification();
+  const [shouldCopyShareCode, setShouldCopyShareCode] = useState(false);
 
   const startDate = moment().startOf('isoWeek');
+  const [shareModalOpen, setShareModalOpen] = useState<boolean>();
 
   const caleventmap: { [key: string]: SchoolWiresCalendarEvent[] } =
     useMemo(() => {
@@ -89,7 +96,36 @@ const App: React.FC = () => {
     return days_off >= 2;
   }, [caleventmap, weekOffset]);
 
-  const { token, isLoggedIn } = useLogin();
+  function scheduleToCourseChange(schedule: {
+    [id: number]: (ScheduleView | null)[];
+  }) {
+    const cc: CourseChange[] = [];
+
+    let day_offset = 0;
+    for (const day of Object.values(schedule)) {
+      for (const entry of day) {
+        if (!entry || !entry.courseName || !entry.courseRoom) {
+          continue;
+        }
+        cc.push({
+          courseName: entry.courseName,
+          courseRoom: entry.courseRoom,
+          periodId: entry.periodId,
+          EsCourseId: entry.courseId,
+          date: startDate
+            .clone()
+            .add(weekOffset, 'w')
+            .add(day_offset, 'd')
+            .format('YYYY-MM-DD') + 'T00:00:00',
+        });
+      }
+      day_offset++;
+    }
+
+    return cc;
+  }
+
+  const { token, isLoggedIn, name } = useLogin();
 
   // Function to handle key press
   const handleKeyPress = (event: KeyboardEvent) => {
@@ -211,8 +247,6 @@ const App: React.FC = () => {
           scheduleMap[4][4] = null;
         }
 
-        console.log(scheduleMap);
-
         setSchedule(scheduleMap);
       });
   }
@@ -311,6 +345,34 @@ const App: React.FC = () => {
     refreshSchedule();
   }
 
+  function openShareModal() {
+    setShareModalOpen(true);
+    if(!shouldCopyShareCode) {
+      setCode('');
+    }
+  }
+
+  function shareModalSubmit() {
+    console.log(schedule, name);
+    if (schedule && name) {
+      shareSchedule(scheduleToCourseChange(schedule), name).then((res) => {
+        setCode(res.code);
+        setShouldCopyShareCode(true);
+      });
+    }
+  }
+
+  function onUseSchedule() {
+    getSchedule(code).then((schedule) => {
+      if(confirm(`Do you want to use schedule by "${schedule.sharer}"?`)) {
+        setShareModalOpen(false);
+        setChanges([... schedule.data]);
+        console.log(schedule.data);
+      }
+      
+    });
+  }
+
   return (
     <>
       <CourseContextProvider
@@ -324,7 +386,7 @@ const App: React.FC = () => {
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'center',
+              alignItems: 'cente  r',
             }}
             item
             xs={12}
@@ -342,10 +404,15 @@ const App: React.FC = () => {
               <IconButton onClick={() => setWeekOffset(weekOffset - 1)}>
                 <ArrowBackIosNewIcon />
               </IconButton>
-              <Typography variant="h4" component="div" color={'text'}>
-                Week of{' '}
-                {startDate.clone().add(weekOffset, 'w').format('MM/DD/YYYY')}
-              </Typography>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Typography variant="h4" component="div" color={'text'}>
+                  Week of{' '}
+                  {startDate.clone().add(weekOffset, 'w').format('MM/DD/YYYY')}
+                </Typography>
+                <IconButton onClick={openShareModal}>
+                  <ShareIcon />
+                </IconButton>
+              </div>
               <IconButton onClick={() => setWeekOffset(weekOffset + 1)}>
                 <ArrowForwardIosIcon />
               </IconButton>
@@ -418,38 +485,44 @@ const App: React.FC = () => {
                         >
                           {[...Array(4)].map((_, innerIdx) => {
                             const override = changes.find(
-                              (c) => c.date == day[innerIdx]?.appointmentDate && c.periodId == day[innerIdx]?.periodId
+                              (c) =>
+                                c.date == day[innerIdx]?.appointmentDate &&
+                                c.periodId == day[innerIdx]?.periodId
                             );
 
                             return (
-                            <>
-                              {(override && (
-                                <RotationCard
-                                  title={`Rotation ${innerIdx + 1}`}
-                                  name={
-                                    override.courseName || 'not scheduled'
-                                  }
-                                  room={override.courseRoom || ''}
-                                  openModal={openModal}
-                                  classid={override.periodId || 0}
-                                  dayOff={innerIdx}
-                                  key={innerIdx}
-                                  highlight_text={true}
-                                />
-                              )) ||
-                                (day[innerIdx] && (
+                              <>
+                                {(override && (
                                   <RotationCard
                                     title={`Rotation ${innerIdx + 1}`}
-                                    name={day[innerIdx]?.courseName || 'not scheduled'}
-                                    room={day[innerIdx]?.courseRoom || ''}
+                                    name={
+                                      override.courseName || 'not scheduled'
+                                    }
+                                    room={override.courseRoom || ''}
                                     openModal={openModal}
-                                    classid={day[innerIdx]?.periodId || 0}
-                                    dayOff={index}
-                                    key={0}
+                                    classid={override.periodId || 0}
+                                    dayOff={innerIdx}
+                                    key={innerIdx}
+                                    highlight_text={true}
                                   />
-                                ))}
-                            </>
-                          )})}
+                                )) ||
+                                  (day[innerIdx] && (
+                                    <RotationCard
+                                      title={`Rotation ${innerIdx + 1}`}
+                                      name={
+                                        day[innerIdx]?.courseName ||
+                                        'not scheduled'
+                                      }
+                                      room={day[innerIdx]?.courseRoom || ''}
+                                      openModal={openModal}
+                                      classid={day[innerIdx]?.periodId || 0}
+                                      dayOff={index}
+                                      key={0}
+                                    />
+                                  ))}
+                              </>
+                            );
+                          })}
                         </DailyScheduleBox>
                       </Grid>
                     );
@@ -477,6 +550,18 @@ const App: React.FC = () => {
                 .add(dayOffset, 'd')
                 .format('YYYY-MM-DD')}
               key={3}
+            />,
+            document.body
+          )}
+        {shareModalOpen &&
+          createPortal(
+            <ShareScheduleDialog
+              onClose={() => setShareModalOpen(false)}
+              onShare={shareModalSubmit}
+              onUse={onUseSchedule}
+              code={code}
+              setCode={setCode}
+              shouldCopy={shouldCopyShareCode}
             />,
             document.body
           )}

@@ -10,7 +10,8 @@ import { JSONThemeProvider } from "./contexts/ThemeContext.tsx";
 import EulaPage from "./Eula.tsx";
 import { SecretModeProvider } from "./contexts/SecretModeContexts.tsx";
 import ChangeLog from "./Changelog.tsx";
-
+import { ThemesMarket } from "./ThemesMarket.tsx";
+//6LcQJscpAAAAACpIvLt3DlJ4sWekNGLHuSqBB8Z_
 const routes = createBrowserRouter([
   {
     path: "/App",
@@ -27,6 +28,10 @@ const routes = createBrowserRouter([
   {
     path: '/patch_notes',
     element: <ChangeLog/>
+  },
+  {
+    path: '/market',
+    element: <ThemesMarket/>
   }
 ]);
 

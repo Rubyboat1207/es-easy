@@ -5,7 +5,6 @@ import CodeIcon from '@mui/icons-material/Code';
 import { useLogin } from './contexts/LoginContext';
 import { useNavigate } from 'react-router-dom';
 import { useJSONTheme } from './contexts/ThemeContext';
-import { PunchClock, Schedule } from '@mui/icons-material';
 
 const ChangeLog: React.FC = () => {
   const { isLoggedIn } = useLogin();
@@ -24,6 +23,33 @@ const ChangeLog: React.FC = () => {
           >
             {isLoggedIn ? 'Return to Schedule View' : 'Login'}
           </Button>
+        </Grid>
+        <Grid item sm={10} marginTop={10} width={'95%'}>
+          <Card>
+            <CardContent>
+              <Typography variant="h4" component="div">
+                Version 1.4 - Sharing is Caring Update
+              </Typography>
+              <Typography color={getThemeObject().secondary_text_color}>
+                4/25/24
+              </Typography>
+              <Grid container marginTop={2}>
+                <Grid item>
+                  <StarIcon sx={{ width: '30px', height: '30px' }} />
+                </Grid>
+                <Grid item marginLeft={1}>
+                  <Typography sx={{ fontSize: '20px' }}>
+                    Release Notes
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Typography component={'ul'}>
+              <li>A new share button has been added to the "Week Of" banner</li>
+              <li>Share Modal has been added</li>
+              <li>Share codes have been added</li>
+              </Typography>
+            </CardContent>
+          </Card>
         </Grid>
         <Grid item sm={10} marginTop={10} width={'95%'}>
           <Card>

@@ -23,7 +23,7 @@ export default function Login() {
   const [keyProgress, setKeyProgress] = useState(0);
   const [remember, setRemember] = useState<boolean>(localStorage.getItem('remember') === 'true');
 
-  const { setToken } = useLogin();
+  const { setToken, setUsersName } = useLogin();
 
   const navigate = useNavigate();
   const notifs = useNotification();
@@ -70,6 +70,7 @@ export default function Login() {
         })
       ).data;
       setToken(validate.authToken);
+      setUsersName(validate.nickName || (validate.firstName + ' ' + validate.lastName))
 
       if(remember) {
         localStorage.setItem('password', password);
