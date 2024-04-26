@@ -71,80 +71,27 @@ const ShareScheduleDialog: React.FC<ShareScheduleModalProps> = ({ onClose, onSha
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [sharingOption, setSharingOption] = useState('full')
-
-  useEffect(() => {
-    // Function to handle key press events
-    const handleKeyPress = (event: KeyboardEvent) => {
-      if(isSmallScreen) {
-        return;
-      }
-      const key = event.key.toUpperCase(); // Normalize the key to uppercase
-      const allowedKeys = '123456789ABCDEFGHKMNPQRSTUVWXYZ';
-
-      if (event.ctrlKey && key === 'V') {
-        return; // Do nothing and wait for the paste handler to take over
-      }
-
-      if (allowedKeys.includes(key)) {
-        setCode((prevStr) => {
-          if (prevStr.length + 1 <= 5) {
-            return prevStr + key;
-          }
-          return prevStr;
-        });
-      } else if (event.key === 'Backspace') {
-        setCode(prevStr => prevStr.slice(0, -1));
-      }
-    };
-
-    // Function to handle paste events
-    const handlePaste = (event: ClipboardEvent) => {
-      if(isSmallScreen) {
-        return;
-      }
-      if (!event.clipboardData) {
-        return;
-      }
-      const paste = (event.clipboardData).getData('text').toUpperCase().trim();
-      const allowedKeys = '123456789ABCDEFGHKMNPQRSTUVWXYZ';
-      const filteredPaste = paste.split('').filter(char => allowedKeys.includes(char)).join('');
-
-      setCode(prevStr => {
-        const newStr = prevStr + filteredPaste;
-        return newStr.slice(0, Math.min(newStr.length, 5)); // Ensure not to exceed the length limit
-      });
-
-      // Prevent the default paste action
-      event.preventDefault();
-    };
-
-    // Attach the event listeners
-    window.addEventListener('keydown', handleKeyPress);
-    window.addEventListener('paste', handlePaste);
-
-    // Cleanup function to remove the event listeners
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-      window.removeEventListener('paste', handlePaste);
-    };
-  }, []); // Empty dependency array means this effect runs only on mount and unmount
+  const {getThemeObject } = useJSONTheme();
+  const themeObject = getThemeObject();
 
   let regex = new RegExp(`[^123456789ABCDEFGHKMNPQRSTUVWXYZ]`, "gi")
 
   return (
     <div className="modal flex-col lg:flex-row">
-      <Card sx={{ zIndex: 500 }} className='w-full h-3/6 lg:h-2/6 lg:w-6/12 text-center justify-between flex flex-col p-5'>
+      <Card sx={{ zIndex: 500 }} className='w-full h-3/6 lg:h-3/6 lg:w-6/12 justify-between flex flex-col p-5'>
         <div className='flex items-center justify-between'>
           <Typography sx={{ fontSize: 32 }}>Share Schedule</Typography>
           <IconButton onClick={onClose}>
             <CloseIcon />
           </IconButton>
         </div>
-        <div className='md:flex justify-center mt-5 w-full hidden'>
-          <CharacterSpots count={5} str={code} />
+        <div>
+        <Typography>To copy your friends schedule, simply enter the code generated for them into the box below, and then press save at the top of the screen. If you would like to share a code for your friends, simply press the "Share Schedule" button below and send the generated code to them. (remember to save your own schedule before sending it to others)</Typography>
+        <br/>
+        <Typography sx={{fontSize: 14, color: themeObject.secondary_text_color}}>Creating a share code uploads your current schedule and your name for basic functionality. Only continue if you are ok with these two bits of data being stored.</Typography>
         </div>
-        <div className='md:hidden justify-center mt-5 w-full flex'>
-          <TextField value={code} onChange={e => setCode(e.target.value.toUpperCase().replace(regex, ''))} label="Share Code" inputProps={{maxLength:5}}></TextField>
+        <div className='justify-center mt-5 w-full flex'>
+          <TextField InputLabelProps={{style:{color: themeObject.primary_text_color}}} value={code} onChange={e => setCode(e.target.value.toUpperCase().replace(regex, ''))} label="Share Code" inputProps={{maxLength:5}}></TextField>
         </div>
         <Box textAlign="center" marginTop={2}>
           <Button variant="contained" startIcon={<ShareIcon />} onClick={shouldCopy ? () => { navigator.clipboard.writeText(code) } : code ? () => onUse() : () => onShare(sharingOption)}>
