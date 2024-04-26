@@ -18,13 +18,14 @@ interface FlexModCardProps {
   periodid: number;
   formatted_date: string;
   setChanges: React.Dispatch<React.SetStateAction<CourseChange[]>>;
+  highlighted?: boolean;
 }
 
-const FlexModCard: React.FC<FlexModCardProps> = ({title, room, periodid, formatted_date, setChanges}) => {
+const FlexModCard: React.FC<FlexModCardProps> = ({title, room, periodid, formatted_date, setChanges, highlighted}) => {
   const { getThemeObject } = useJSONTheme();
   const [modalShow, setShowModal] = useState<boolean>(false);
 
-  const themeObject = getThemeObject();
+  const theme = getThemeObject();
 
   function showModal() {
     setShowModal(true);
@@ -43,15 +44,15 @@ const FlexModCard: React.FC<FlexModCardProps> = ({title, room, periodid, formatt
     <>
     <Card
       sx={{
-        backgroundColor: themeObject.rotation_card_background_color,
+        backgroundColor: theme.rotation_card_background_color,
       }}
     >
       <CardContent>
-        <Typography variant="h6" component="div" sx={{fontSize: 18}}>
+        <Typography variant="h6" component="div" sx={{fontSize: 18, color: highlighted ? theme.highlight_text_color : undefined}}>
           {title}
         </Typography>
         <Typography color="text.secondary">
-          <Typography sx={{ display: "inline", fontSize: 12 }} color="text.secondary">
+          <Typography sx={{ display: "inline", fontSize: 12, color: highlighted ? theme.highlight_text_color : undefined }}>
             {room}
           </Typography>
         </Typography>

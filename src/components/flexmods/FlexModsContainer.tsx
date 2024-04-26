@@ -2,6 +2,7 @@ import { Card, Grid, Typography } from "@mui/material";
 import { ScheduleView } from "../../types";
 import { CourseChange } from "../Rotationcard";
 import FlexMod from "./FlexMod";
+import { useCourseContextProvider } from "../../contexts/CourseContext";
 
 interface FlexModsProps {
   coursesList:
@@ -18,6 +19,9 @@ const FlexModsContainer: React.FC<FlexModsProps> = ({
   setChanges,
   date,
 }) => {
+  const {changes} = useCourseContextProvider()
+
+
   return (
     <>
       <div
@@ -57,10 +61,17 @@ const FlexModsContainer: React.FC<FlexModsProps> = ({
           }}
         >
           {coursesList
-            ? coursesList[4].map((c, idx) => (
+            ? coursesList[4].map((c, idx) => {
+              const override = changes.find(
+                (change) =>
+                  change.date == c?.appointmentDate &&
+                  change.periodId == c?.periodId
+              );
+              
+              return (
                 <FlexMod
-                  courseName={c?.courseName || ""}
-                  courseRoom={c?.courseRoom || ""}
+                  courseName={override?.courseName || c?.courseName || ""}
+                  courseRoom={override?.courseRoom || c?.courseRoom || ""}
                   formatted_date={
                     c?.appointmentDate || date.format("YYYY-MM-DD")
                   }
@@ -68,8 +79,9 @@ const FlexModsContainer: React.FC<FlexModsProps> = ({
                   index={idx}
                   setChanges={setChanges}
                   key={idx}
+                  highlighted={override != null}
                 />
-              ))
+              )})
             : [...Array(5)].map((_, idx) => (
                 <FlexMod
                   courseName={"Not Scheduled"}

@@ -28,6 +28,41 @@ const ChangeLog: React.FC = () => {
           <Card>
             <CardContent>
               <Typography variant="h4" component="div">
+                Version 1.4.1
+              </Typography>
+              <Typography color={getThemeObject().secondary_text_color}>
+                4/25/24
+              </Typography>
+              <Grid container marginTop={2}>
+                <Grid item>
+                  <StarIcon sx={{ width: '30px', height: '30px' }} />
+                </Grid>
+                <Grid item marginLeft={1}>
+                  <Typography sx={{ fontSize: '20px' }}>
+                    Release Notes
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Typography component={'ul'} className='list-disc'>
+              <li>Share Modal has been modified to add mobile support</li>
+              <li>Share Modal was given extra options for course sharing like: 
+                <ul className='list-disc ml-4'>
+                <li>Sharing All Courses (default)</li>
+                <li>Sharing Only rotations</li>
+                <li>Sharing Only flex mods</li>
+                <li>Sharing Only today's mods</li>
+                </ul>
+              </li>
+              <li>Flex mod changes now show up highlighted, where previously this feature was bugged</li>
+              <li>Fixed list items not correctly displaying in changelog</li>
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item sm={10} marginTop={10} width={'95%'}>
+          <Card>
+            <CardContent>
+              <Typography variant="h4" component="div">
                 Version 1.4 - Sharing is Caring Update
               </Typography>
               <Typography color={getThemeObject().secondary_text_color}>
@@ -43,7 +78,7 @@ const ChangeLog: React.FC = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
               <li>A new share button has been added to the "Week Of" banner</li>
               <li>Share Modal has been added</li>
               <li>Share codes have been added</li>
@@ -70,7 +105,7 @@ const ChangeLog: React.FC = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
               <li>To-be-Scheduled classes now show up highlighted in place of a "not scheduled" text.</li>
               <li>Themes now have a new "highlighted text" color property</li>
                 <li>Reintroduced clicking off modals to close them, rather than only being able to close using the close button</li>
@@ -83,10 +118,10 @@ const ChangeLog: React.FC = () => {
                   <Typography sx={{ fontSize: '20px' }}>Beta Notes</Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
                 <li>
                   Theme Editor
-                  <ul>
+                  <ul className='list-disc ml-4'>
                     <li>Added highlited text color property to theme editor</li>
                   </ul>
                 </li>
@@ -113,9 +148,9 @@ const ChangeLog: React.FC = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
                 <li>Added the flex mod beta to be in the release!</li>
-                <ul>
+                <ul className='list-disc ml-4'>
                   <li>Flex mods a re now grouped by category.</li>
                 </ul>
               </Typography>
@@ -141,7 +176,7 @@ const ChangeLog: React.FC = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
               <li>Removed clicking off schedule modal</li>
               </Typography>
               <Grid container marginTop={2}>
@@ -152,10 +187,10 @@ const ChangeLog: React.FC = () => {
                   <Typography sx={{ fontSize: '20px' }}>Beta Notes</Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
                 <li>
                   Theme Editor
-                  <ul>
+                  <ul className='list-disc ml-4'>
                     <li>Added feedback for when you copy the theme json to clipboard</li>
                     <li>Added JSON theme editor (unstable) (here be dragons!)</li>
                     <li>Added support for image backgrounds</li>
@@ -185,7 +220,7 @@ const ChangeLog: React.FC = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
               <li>Fixed bug where two <strong>Rotation 4</strong>s would show up on friday rotations (last fix didnt work in all cases)</li>
               <li>Fixed visual bug where all <strong>Friday Rotations</strong> are marked as not scheduled when refreshed.</li>
               </Typography>
@@ -209,7 +244,7 @@ const ChangeLog: React.FC = () => {
                   <Typography sx={{ fontSize: '20px' }}>Beta Notes</Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
                 <li>Friday flex mods are hidden on days with a friday rotation</li>
               </Typography>
             </CardContent>
@@ -234,7 +269,7 @@ const ChangeLog: React.FC = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
                 <li>Added support for Holidays</li>
                 <li>Added support for Friday Rotations if there are more than 2 days missing in a given week</li>
               </Typography>
@@ -246,7 +281,7 @@ const ChangeLog: React.FC = () => {
                   <Typography sx={{ fontSize: '20px' }}>Beta Notes</Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
               <li>Friday flex mods are hidden on days with a friday rotation</li>
               <li>Friday flex mods are hidden on days where friday is a missing day.</li>
               </Typography>
@@ -272,7 +307,7 @@ const ChangeLog: React.FC = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
                 <li>Fixed Rotation IDs</li>
               </Typography>
             </CardContent>
@@ -297,7 +332,7 @@ const ChangeLog: React.FC = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
               <li>Fixed bug where Rotation error messages would show the wrong rotation.</li>
               <li>Fixed bug where certain elements would render over popups</li>
               <li>Internal Refactoring</li>
@@ -310,10 +345,10 @@ const ChangeLog: React.FC = () => {
                   <Typography sx={{ fontSize: '20px' }}>Beta Notes</Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
                 <li>
                   Theme Editor
-                  <ul>
+                  <ul className='list-disc ml-4'>
                     <li>You can now copy the the theme JSON to your clipboard.</li>
                   </ul>
                 </li>
@@ -340,7 +375,7 @@ const ChangeLog: React.FC = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
                 <li>Most success notifications now fade out eventually</li>
                 <li>Notifications now have an enter and exit animation</li>
                 <li><strong>Remember me</strong> option added to login page</li>
@@ -355,10 +390,10 @@ const ChangeLog: React.FC = () => {
                   <Typography sx={{ fontSize: '20px' }}>Beta Notes</Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
                 <li>
                   Theme Editor
-                  <ul>
+                  <ul className='list-disc ml-4'>
                     <li>Themes now have a name by default, meaning they will not automatically show up as invisible in the selection dropdown</li>
                   </ul>
                 </li>
@@ -382,7 +417,7 @@ const ChangeLog: React.FC = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
                 <li>Added confirmation screen if you try to leave the page before you finish scheduling</li>
               </Typography>
               <Grid container marginTop={2}>
@@ -393,10 +428,10 @@ const ChangeLog: React.FC = () => {
                   <Typography sx={{ fontSize: '20px' }}>Beta Notes</Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
                 <li>
                   Theme Editor
-                  <ul>
+                  <ul className='list-disc ml-4'>
                     <li>Theme editor accessible from beta menu</li>
                     <li>All colors can be customized</li>
                     <li>Most colors can be previewed in the preview section on the left</li>
@@ -422,7 +457,7 @@ const ChangeLog: React.FC = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
                 <li>Added Changelog Page</li>
                 <li>Added Schedule Success Notification</li>
                 <li>Improved visuals of Login Page</li>
@@ -442,7 +477,7 @@ const ChangeLog: React.FC = () => {
                   <Typography sx={{ fontSize: '20px' }}>Beta Notes</Typography>
                 </Grid>
               </Grid>
-              <Typography component={'ul'}>
+              <Typography component={'ul'} className='list-disc'>
                 <li>
                   Theme editor beta menu layout (currently non-functional)
                 </li>
