@@ -78,7 +78,7 @@ const ShareScheduleDialog: React.FC<ShareScheduleModalProps> = ({ onClose, onSha
 
   return (
     <div className="modal flex-col lg:flex-row">
-      <Card sx={{ zIndex: 500 }} className='w-full h-3/6 lg:h-3/6 lg:w-6/12 justify-between flex flex-col p-5'>
+      <Card sx={{ zIndex: 500, overflowY: 'auto' }} className='w-full h-3/6 lg:h-3/6 lg:w-6/12 justify-between flex flex-col p-5'>
         <div className='flex items-center justify-between'>
           <Typography sx={{ fontSize: 32 }}>Share Schedule</Typography>
           <IconButton onClick={onClose}>

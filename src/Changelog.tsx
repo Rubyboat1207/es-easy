@@ -28,6 +28,31 @@ const ChangeLog: React.FC = () => {
           <Card>
             <CardContent>
               <Typography variant="h4" component="div">
+                Version 1.4.3
+              </Typography>
+              <Typography color={getThemeObject().secondary_text_color}>
+                4/26/24
+              </Typography>
+              <Grid container marginTop={2}>
+                <Grid item>
+                  <StarIcon sx={{ width: '30px', height: '30px' }} />
+                </Grid>
+                <Grid item marginLeft={1}>
+                  <Typography sx={{ fontSize: '20px' }}>
+                    Release Notes
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Typography component={'ul'} className='list-disc'>
+              <li>Mobile is no longer broken for the share modal</li>
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item sm={10} marginTop={10} width={'95%'}>
+          <Card>
+            <CardContent>
+              <Typography variant="h4" component="div">
                 Version 1.4.2
               </Typography>
               <Typography color={getThemeObject().secondary_text_color}>
