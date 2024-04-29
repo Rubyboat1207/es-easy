@@ -351,6 +351,14 @@ const App: React.FC = () => {
   function shareModalSubmit(mode: string) {
     console.log(schedule, name);
     if (schedule && name) {
+      if(!name) {
+        if(confirm(`You may need to log out and back in for this to function. Redirect to login page? ${changes.length > 0 ? 'You have unsaved changes.' : 'You do not have any unsaved changes.'}`)) {
+          sessionStorage.clear();
+          localStorage.setItem('username', '');
+          localStorage.setItem('password', '')
+          navigate("/");
+        }
+      }
       shareSchedule(scheduleToCourseChange(schedule).filter(sch => {
         if (mode == 'full') {
           return true;
