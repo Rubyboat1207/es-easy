@@ -1,6 +1,6 @@
-import { Button, Paper, Typography } from "@mui/material";
-import Heading from "./components/Heading";
-import { useNavigate } from "react-router-dom";
+import { Button, Paper, Typography } from '@mui/material';
+import Heading from './components/Heading';
+import { useNavigate } from 'react-router-dom';
 
 const EulaPage: React.FC = () => {
   const navigate = useNavigate();
@@ -10,32 +10,32 @@ const EulaPage: React.FC = () => {
       <Heading />
       <div
         style={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
         }}
       >
-        <Paper sx={{ width: "80vw", padding: "15px 15px 15px 15px" }}>
+        <Paper sx={{ width: '80vw', padding: '15px 15px 15px 15px' }}>
           <Typography
             variant="h4"
-            component={"h1"}
-            sx={{ textAlign: "center" }}
+            component={'h1'}
+            sx={{ textAlign: 'center' }}
           >
             ES-Easy Privacy Policy
           </Typography>
           <br />
-          <Typography variant="h5" component={"h1"} sx={{ marginBottom: 2 }}>
+          <Typography variant="h5" component={'h1'} sx={{ marginBottom: 2 }}>
             1. Disclaimers
           </Typography>
           <Typography>
             ES-Easy is not affiliated with Enriching Students or Interval
             Technologies.
           </Typography>
-          <Typography  sx={{ marginBottom: 2, marginTop: 2 }}>
+          <Typography sx={{ marginBottom: 2, marginTop: 2 }}>
             THIS SOFTWARE IS PROVIDED 'AS-IS', WITHOUT ANY EXPRESS OR IMPLIED
-            WARRANTY.  IN NO EVENT WILL THE AUTHORS BE HELD LIABLE FOR ANY DAMAGES
-            ARISING FROM THE USE OF THIS SOFTWARE.
+            WARRANTY. IN NO EVENT WILL THE AUTHORS BE HELD LIABLE FOR ANY
+            DAMAGES ARISING FROM THE USE OF THIS SOFTWARE.
           </Typography>
           <Typography>
             I am doing this for the sole purpose of making enriching students
@@ -45,32 +45,44 @@ const EulaPage: React.FC = () => {
             Enriching Students or Interval Technologies.
           </Typography>
           <Typography>
-            If you have a problem with what im doing please contact me at{" "}
+            If you have a problem with what im doing please contact me at{' '}
             <a href="mailto:rudy@rudysoliz.com">rudy@rudysoliz.com</a>
           </Typography>
           <Typography
             variant="h5"
-            component={"h1"}
+            component={'h1'}
             sx={{ marginBottom: 2, marginTop: 2 }}
           >
             2. Data Storage
           </Typography>
           <Typography>
-            We do not intentionally store any data or logs about our users. All
-            data is stored locally on the user's computer. If a third party
-            requests information, none can or will be given because we dont
-            store anything. Information stored locally, such as authentication,
-            are removed after each session, however customization settings are
-            stored between sessions.
+            We do not intentionally store any data or logs relating to the
+            account information of our users. All of said data is stored locally
+            on the user's computer. If a third party requests information, none
+            can or will be given because we dont store anything. Information
+            stored locally, such as authentication, are removed after each
+            session except if specifically checked using the "remember me"
+            option, however customization settings are stored between sessions.
           </Typography>
           <Typography>
             If unitentioanl data storage occurs, the data will be deleted
             immediately upon discovery. Then the data storage system will be
             removed and no additional data will be stored using this method.
           </Typography>
+          <Typography
+            variant="h5"
+            component={'h1'}
+            sx={{ marginBottom: 2, marginTop: 2 }}
+          >
+            3. Analytics
+          </Typography>
+          <Typography>
+            As of 5/9/24, our site tracks analytics data such as clicks, and
+            unique visits for QA purposes and data analytics.
+          </Typography>
         </Paper>
         <Button
-          onClick={() => navigate("/")}
+          onClick={() => navigate('/')}
           sx={{ marginTop: 5 }}
           variant="contained"
         >
